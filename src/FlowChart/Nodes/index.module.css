@@ -1,0 +1,125 @@
+.nodeContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.16);
+    cursor: pointer;
+}
+
+.nodeContainer.selected {
+    box-shadow: 0 4px 26px #2196f3;
+}
+
+.nodeIconContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.nodeIcon {
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.nodeContainer:hover .deleteIcon {
+    display: block;
+}
+
+.deleteIcon {
+    position: absolute;
+    display: none;
+    width: 24px;
+    height: 24px;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background-color: transparent;
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+
+.deleteIcon:hover {
+    transform: translate(50%, -50%) scale(1.1);
+}
+
+.deleteIcon:hover > .deleteFill {
+    fill: #ff3b3b;
+}
+
+.nodeTitle {
+    height: 64px;
+    padding: 32px 10px 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.nodeContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    padding: 0 16px;
+    min-height: 50px;
+    font-size: 13px;
+    color: #2196f3;
+}
+
+.conditionTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    min-height: 64px;
+    padding: 0 16px;
+    border-bottom: 1px solid #ccc;
+    font-size: 13px;
+    color: #333;
+}
+
+.endContainer {
+    background-color: #f0f0f0;
+}
+
+.endIcon {
+    display: block;
+    margin: 0 auto 6px auto;
+}
+
+.startIcon {
+    display: block;
+    margin: 6px auto 0px auto;
+}
+
+.endText {
+    font-size: 13px;
+    color: #9e9e9e;
+}
+
+.tempContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 80px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #757575;
+    background: #fff;
+    box-shadow: 0 4px 26px #2196f3;
+}

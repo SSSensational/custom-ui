@@ -10,9 +10,7 @@
     一个仅提供基本功能职责和动画效果的组件库.设计用于二次封装开发.
 </div>
 
-<div align="center">
-    [English](./README-en_US.md) | 简体中文
-</div>
+[English](./README-en_US.md) | 简体中文
 
 
 ## 在线演示

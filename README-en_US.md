@@ -10,9 +10,7 @@
     Some React UI Components with basic action and animation.Design for further devlop.
 </div>
 
-<div align="center">
-    English | [简体中文](./README-zh_CN.md)
-</div>
+English | [简体中文](./README-zh_CN.md)
 
 
 ## Online Demo

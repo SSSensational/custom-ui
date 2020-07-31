@@ -1,0 +1,49 @@
+.chartContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.sectionContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: fit-content;
+}
+
+.nodeContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nodeBox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    all: unset;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    z-index: 1;
+}
+
+.btnIcon {
+    display: block;
+    cursor: pointer;
+    transition: cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+
+.btnIcon:hover {
+    transform: scale(1.1);
+}

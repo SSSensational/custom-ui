@@ -1,0 +1,14 @@
+.flowchart-container {
+    width: 100%;
+    min-height: 800px;
+    height: 80vh;
+    margin: 40px auto 0 auto;
+}
+
+.toast-container {
+    width: 480px;
+    border-radius: 6px;
+    padding: 40px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.16);
+}
