@@ -1,0 +1,181 @@
+---
+name: I. 进度条-Progress
+route: /progress
+menu: 通用组件-基础
+---
+import { Playground } from "docz";
+import Progress from "../index";
+
+
+#### 简介
+
+表示进度的进度条组件，支持圆形和线性进度条，有进度变化动画效果。
+
+
+## 基础用法
+
+通过设置 linear 属性为 true 设置进度条为线型， 通过设置 circular 属性为 true 设置进度条为圆型， 两者只能二选一。
+
+通过设置　percent 属性(0-100) 设置进度。
+
+<Playground>
+    {() => {
+        const [percent, setPercent] = React.useState(0);
+        return (
+            <>
+                <button onClick={() => setPercent(pre => pre <= 90 ? pre + 10 : 100)}>Increase</button>
+                <button onClick={() => setPercent(pre => pre >= 10 ? pre - 10 : 0)}>Decrease</button>
+                <Progress percent={percent} />
+                <Progress percent={percent} circular />
+            </>
+        );
+    }}
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 属性 改变进度条大小。
+
+circular 类型的size要求如下。
+
+```javascript
+interface {
+    size: number | string; // 视图宽高, 默认 100px
+    strokeWidth: number | string; // 进度条宽度，　默认8px
+    fontSize?: number | string; // 文字大小，　默认inherit
+};
+```
+
+linear 类型的size要求如下。
+
+```javascript
+interface {
+    width: number | string; // 默认 200px
+    height: number | string; // 默认 8px
+    borderRadius?: number | string; // 默认 4px
+    fontSize?: number | string; // 默认inherit
+};
+```
+
+<Playground>
+    <Progress percent={75} size={{ width: 100, height: '12px', borderRadius: 0, fontSize: '1.5em' }} />
+    <Progress percent={75} circular size={{ size: 200, strokeWidth: 12, fontSize: '66px'}} />
+</Playground>
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 属性为　"合法的css颜色单位"　来简单设置进度条颜色。
+
+也可以设置为符合下面规则的对象来具体设置滑块、文字颜色。
+
+```javascript
+interface Color {
+    strokeColor: string; // 默认 #1890ff
+    trailColor?: string; // 默认 rgba(0, 0, 0, 0.1)
+    fontColor?: string; // 默认 #000
+}
+```
+
+<Playground>
+    {() => {
+        const [percent, setPercent] = React.useState(0);
+        return (
+            <>
+                <button onClick={() => setPercent(pre => pre <= 90 ? pre + 10 : 100)}>Increase</button>
+                <button onClick={() => setPercent(pre => pre >= 10 ? pre - 10 : 0)}>Decrease</button>
+                <Progress percent={percent} color="linear-gradient(to right, rgb(16, 142, 233) 0%, rgb(135, 208, 104) 100%)"/>
+                <Progress percent={percent} circular color="pink" />
+                <Progress percent={percent} color={{ strokeColor: 'blue', trailColor: 'yellow', fontColor: 'red' }} />
+                <Progress percent={percent} circular color={{ strokeColor: 'blue', trailColor: 'yellow', fontColor: 'red' }} />
+            </>
+        );
+    }}
+</Playground>
+
+
+<br/>
+
+
+## 文字位置
+
+通过设置 placement　属性为　"none" | "center"(circular类型默认) | "top" | "bottom" | "right"(linear类型默认) | "left"　来改变文字位置。
+
+<Playground>
+    <Progress percent={75} placement="none" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} placement="center" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} placement="left" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} placement="right" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} placement="top" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} placement="bottom" style={{ marginBottom: 30 }}/>
+    <Progress percent={75} circular placement="right"/>
+</Playground>
+
+
+<br/>
+
+
+## 自定义文字内容
+
+通过 format　属性自定义文字内容。
+
+format接受当前进度值为参数，要求返回一个字符串。因为format中的参数是精确到个位数的动画变化值，所以比起传入的percent会有极短的延迟。
+
+<Playground>
+    {() => {
+        const [percent, setPercent] = React.useState(0);
+        return (
+            <>
+                <button onClick={() => setPercent(pre => pre <= 90 ? pre + 10 : 100)}>Increase</button>
+                <button onClick={() => setPercent(pre => pre >= 10 ? pre - 10 : 0)}>Decrease</button>
+                <Progress
+                    percent={percent}
+                    format={(_) => percent === 100 ? 'success' : `${percent}个`}
+                    color={percent === 100 ? '#52c41a' : ''}
+                    style={{ margin: '20px 0' }}
+                />
+                <Progress
+                    percent={percent}
+                    format={(percent) => percent === 100 ? 'success' : `${percent}个`}
+                    color={percent === 100 ? '#52c41a' : ''}
+                />
+                <Progress
+                    percent={percent}
+                    circular
+                    format={(percent) => percent === 100 ? 'done' : `剩${100 - percent}%`}
+                    color={percent === 100 ? '#52c41a' : ''}
+                />
+            </>
+        );
+    }}
+</Playground>
+
+
+<br/>
+
+
+## 其他任意原生html属性、事件
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| *percent | 进度 | number(0-100) |
+| linear | 是否线型 | boolean | true |
+| circular | 是否圆型 | boolean | false |
+| size | 大小 | ("linear"){ width, height, borderRadius?, fontSize? } \| ("circular"){ size, strokeWidth, fontSize? } |
+| color | 颜色 | "合法的css颜色单位" \| { strokeColor, trailColor, fontColor } |
+| placement | 文字位置 | "none" \| "top" \| "bottom" \| "left" \| "right" | ("linear")->"right" \| ("circular")->"center" |
+| format | 自定义文字 | (percent: number) => string |
+| 其他 | html属性 | 如 class, style, onClick 等 | |

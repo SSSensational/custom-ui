@@ -1,0 +1,238 @@
+---
+name: A. 基础按钮-ButtonBase
+route: /buttonbase
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import ButtonBase from "../index";
+
+#### 简介
+轻量的，只包含基础样式的按钮组件。
+
+
+## 类型
+
+通过设置 variant 为 "text", "outlined", "contained" 改变按钮的类型。若不设置 variant，则类型默认为 "outlined"。
+
+<Playground>
+    <ButtonBase variant="text">text</ButtonBase>
+    <ButtonBase variant="outlined">outlined</ButtonBase>
+    <ButtonBase variant="contained">contained</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 可选尺寸
+
+通过设置 size 为 "large" , "small" , "normal" , "small" 分别把按钮设为四种不同尺寸。若不设置 size，则尺寸默认为 "normal"。
+
+<Playground>
+    <ButtonBase size="large">large</ButtonBase>
+    <ButtonBase size="big">big</ButtonBase>
+    <ButtonBase size="normal">默认为normal</ButtonBase>
+    <ButtonBase size="small">small</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 自适应尺寸
+
+通过设置 size 为"合法的css长度单位"指定按钮内的字体大小，按钮的边界也会根据size自适应。
+
+如果 size 非法，将会被设置为默认大小。
+
+<Playground>
+    <ButtonBase size={20}>number</ButtonBase>
+    <ButtonBase size="24px">with px</ButtonBase>
+    <ButtonBase size="1.5em">with em</ButtonBase>
+    <ButtonBase size="2vw">with vw</ButtonBase>
+    <ButtonBase size="30%">with %</ButtonBase>
+    <ButtonBase size="40">illegal</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 自定义尺寸
+
+size也可以设置为包含可选的 fontSize 属性和互斥的 padding -- width, height属性的对象
+
+属性的值也得是合法的单位，否则将置为默认大小。
+
+```javascript
+interface size {
+    fontSize?: number,
+    padding: [number | string, number | string]
+}
+interface size {
+    fontSize?: number,
+    width: number | string,
+    height: number | string
+}
+```
+
+<Playground>
+    <ButtonBase size={{ padding: [12, "36px"] }}>
+        自定义Padding不会超出边距
+    </ButtonBase>
+    <ButtonBase size={{ fontSize: 16, width: "235px", height: 60 }}>
+        自定义width,height可能会超出边距
+    </ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 占满父元素
+
+通过设置 fullWidth 属性为 true 使按钮宽度占满父元素， 比上述改变宽度的方式优先级更高。
+
+<Playground>
+    <ButtonBase variant="outlined" fullWidth>fullWidth</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 自适应颜色
+通过设置 color 为任意"合法的css值"改变按钮的颜色。
+
+color 值不合法以及默认将置为黑色。
+
+不同类型的按钮有不同的含义：
++ text、outlined型的按钮代表文字、边框的颜色以及交互效果色。
++ contained类型的按钮代表背景及交互效果色，文字的颜色会自适应为黑色或者白色。
+
+<Playground>
+    <ButtonBase variant="text" color="rgb(220, 0, 78)">text</ButtonBase>
+    <ButtonBase variant="outlined" color="rgb(220, 0, 78)">outlined</ButtonBase>
+    <ButtonBase variant="contained" color="rgb(220, 0, 78)">contained</ButtonBase>
+    <ButtonBase variant="contained" color="#e0e0e0">contained</ButtonBase>
+    <ButtonBase variant="contained" color="#1976d2">contained</ButtonBase>
+    <ButtonBase variant="contained" color="pink">contained</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 自定义颜色
+
+color也可以设置为包含必选的 color 属性和可选的 bgColor, borderColor, hoverColor, hoverBgColor, hoverBorderColor 属性的对象。
+
+对象中color属性单独出现时等效为直接给组件的color属性赋予该值。如果配合其他恰当的属性，则表示为文字颜色。
+
+属性的值也得是合法的单位，否则将置为默认值。
+
+```javascript
+interface Color {
+    color: string,
+    bgColor?: string,
+    borderColor?: string,
+    hoverColor?: string,
+    hoverBgColor?: string,
+    hoverBorderColor?: string,
+}
+```
+
+<Playground>
+    <ButtonBase variant="outlined" color={{color: "rgb(220, 0, 78)"}}>contained</ButtonBase>
+    <ButtonBase variant="outlined" color={{color: "rgb(220, 0, 78)", borderColor: "blue"}}>contained</ButtonBase>
+    <ButtonBase variant="contained" color={{color: "yellow" }}>contained</ButtonBase>
+    <ButtonBase variant="contained" color={{color: "yellow", bgColor: "red"}}>contained</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 边角、边框与阴影
+
+可以通过设置 boxShadow 为 true、合法的阴影字符串值 / false 来启用/关闭阴影。默认情况下只有 contained 类型的按钮开启阴影。
+
+可以通过设置 borderRadius 为 true、"circle" 、合法的css长度单位 / false 来启用/关闭边角，默认为 true。
+
+可以通过设置 borderWidth 为 合法的css长度单位来改变边框宽度。
++  只有outlined类型的按钮默认有效
++  text和contained类型的按钮是默认没有边框的
++  它们只有当通过color指定了borderColor和hoverBorderColor的情况下才会生效。
+
+可以通过设置 borderStyle 改变边框样式。
+
+<Playground>
+    <ButtonBase variant="contained" color="#4caf50" borderRadius={false}>borderRadius=false</ButtonBase>
+    <ButtonBase variant="outlined" boxShadow borderWidth="2px" borderStyle="dashed">boxShadow=true</ButtonBase>
+    <ButtonBase variant="contained" color="#4caf50" boxShadow={false} borderRadius="circle" size={{ width: 100, height: 100 }}>no shadow</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## class和内联style
+
+以上的属性足以构建大部分情况下一个按钮应该有的样子。
+
+如果这还不能满足你，并且你需要ButtonBase的一些内置效果，那也支持通过class和内联style直接修改样式。
+
+<Playground>
+    <ButtonBase variant="contained" className="xxx" style={{ color: "red" }}>custom</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+可以通过设置 disabled 为 true 禁用按钮。
+
+<Playground>
+    <ButtonBase variant="text" disabled>text</ButtonBase>
+    <ButtonBase variant="outlined" disabled>outlined</ButtonBase>
+    <ButtonBase variant="contained" color="rgb(220, 0, 78)" disabled>contained</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 自定义渲染html元素
+
+可以通过设置 as 指定渲染成什么html元素，不填默认为 button。
+
+<Playground>
+    <ButtonBase as="a" href="https://www.baidu.com" target="_blank">a</ButtonBase>
+    <ButtonBase as="span">span</ButtonBase>
+</Playground>
+
+
+<br/>
+
+
+## 其他任意原生html属性、事件
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| variant | 按钮类型 | "text" \| "outlined" \|"contained"  | "outlined" |
+| size | 按钮尺寸 | "large" \| "big" \| "normal" \| "small" \| "合法的css长度字符串" \| number \| custom-size(详情见上) | "normal" |
+| color | 按钮颜色 | "合法的css颜色字符串" \| { color, bgColor, borderColor, hoverColor, hoverBgColor, hoverBorderColor }  | "#000" |
+| boxShadow | 按钮阴影 | boolean \| "合法的css阴影字符串"  | "text", "outlined" 类型按钮默认false, "contained" 类型按钮默认true |
+| borderRadius | 按钮阴影 | boolean \| "circle" \| "合法的css长度字符串" | true |
+| borderWidth | 按钮边框 | "合法的css长度字符串" \| number | "text", "contained" 类型按钮默认0, "outlined" 类型按钮默认 "1px" |
+| borderStyle | 边框样式 | "合法的css边框样式字符串" | "solid" |
+| disabled | 禁用状态 | boolean | false |
+| 其他 | html属性 | 如 class, style, onClick 等 | |

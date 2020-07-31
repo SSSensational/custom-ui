@@ -1,0 +1,643 @@
+---
+name: A. 消息条-Toast
+route: /toast
+menu: 通用组件-组合
+---
+import { Playground } from "docz";
+import Toast from "../index";
+import CustomContent from "./CustomContent";
+
+#### 简介
+
+以List和Mask为基础的消息条。
+
+不需要写进render，可以通过js调用直接消息项。
+
+虽然功能完善，支持自定义内容，可以实现Dialog、Modal等的效果，但是建议只作为错误、成功提示等轻量级交互来使用。
+
+## 单例和多个实例
+
+默认导入的Toast是个单例。
+
+也支持生成另外的实例，用以封装成不同类型的Toast效果。
+
+```javascript
+import Toast from '../index';
+
+import { ToastClass } from '../index';
+
+const Toast2 = new ToastClass();
+```
+
+<br/>
+
+
+## 注册
+
+Toast需要个容器来渲染，应此提供了两种方式来注册容器(注册仅接受一次，第二次无效)。
+
+**方式一: 函数式**
+
+通过init函数注册，函数接受一个可选的参数HTMLElment作为容器。建议在App的入口处初始化。
+
+如果未指定容器，将在body下自动创建一个id为toast-container的div HTMLElement作为容器。
+
+```javascript
+import Toast from '../index';
+
+const contaner = document.querySelector("#xx");
+Toast.init(container);
+```
+
+**方式二： 组件式**
+
+如果你需要对Toast注入i18n、主题配置、Redux Store等东西，也可以通过Toast.Provider组件式的方式注册。
+
+Toast.Provider接受一个可选的container属性指定容器，如果没有，也将自动创建，规则如方式一所述。
+
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { IntlProvider } from 'react-intl';
+import App from './App';
+import Toast from '../index';
+
+const contaner = document.querySelector("#xx");
+
+ReactDOM.render(
+    <React.StrictMode>
+        <IntlProvider>
+            <Toast.Provider container={contaner}/>
+            <App />
+        </IntlProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
+);
+```
+
+**但是显式手动注册容器并不是必须的。如果仅把Toast用作单一语言的轻量级提示，可以不用注册容器直接使用API。**
+
+Toast内部会在第一次调用API时候自动按方式一所述规则创建容器。
+
+
+<br/>
+
+
+## 基础用法 - 内容与持续时间
+
+通过 Toast.show 生成一个消息项。
+
+Toast.show接受一个对象作为参数，Content是唯一的必填属性，表示消息项的内容。
+
+Content属性可以是简单的数字和字符串， 这时候消息项的样式是内置的黑底白字风格。
+
+Content属性也可以接受自定义的JSX.Element或者React组件。
+
+通过设置参数中的 duration 属性控制该消息项的持续时间(ms)， 不填为默认 3000。
+
+```javascript
+import React from 'react';
+
+export const CustomContent = () => {
+    return <div style={{ width:200, height:100, backgroundColor:'yellow' }}>这是一个React组件</div>
+}
+```
+
+<Playground>
+    <button
+        onClick={() => Toast.show({ Content: 123456, duration: 1000 })}
+    >
+        数字
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项' })}
+    >
+        字符
+    </button>
+    <button
+        onClick={() => Toast.show({
+            Content: <div style={{ backgroundColor: 'red', color: 'white' }}>这是一个jsx元素</div>,
+            duration: 3000
+        })}
+    >
+        jsx元素
+    </button>
+    <button
+        onClick={() => Toast.show({
+            Content: CustomContent,
+            duration: 4000
+        })}
+    >
+        React组件
+    </button>
+</Playground>
+
+
+<br/>
+
+
+## 自定义消息项容器样式
+
+为了实现动画效果，每个消息项外都有一层不可见容器，默认为这个容器设置了 margin-button: 12px。
+
+请注意不要给自定义内容的消息项设置margin, 这么做会撑开容器， 如下的p元素。
+
+如果对于这个距离不满意，或者想附加其他的样式(虽然我不知道为什么要这么做)。
+
+可以通过在show的参数中添加 ItemWrapperStyle, ItemWrapperClassName 属性来自定义该消息项的容器样式。
+
+也可以通过另外的API setItemWrapperStyle 和 setItemWrapperClassName 全局设置当前Toast实例下每个消息项容器的样式(当然优先级没有show参数中添加的高)。
+
+请注意这两个API的改变是持久性的、全局的，当前Toast实例下后续所有消息项都将应用修改，当然也可以空参再次调用这两个API进行重置。
+
+<Playground>
+    <button
+        onClick={() => {
+            Toast.setItemWrapperStyle({ marginBottom: Math.floor(Math.random()*(120 - 12 + 1) + 12) });
+            Toast.show({
+                Content: '这是一个消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        随机设置全局间距12-120
+    </button>
+    <button
+        onClick={() => {
+            Toast.setItemWrapperStyle();
+            Toast.show({
+                Content: '这是一个消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        恢复默认间距-12
+    </button>
+    <button
+        onClick={() => Toast.show({
+            Content: '这是一个消息项',
+            duration: 3000,
+            ItemWrapperStyle: { marginBottom: 24 }
+        })}
+    >
+        自定义间距24
+    </button>
+    <button
+        onClick={() => Toast.show({
+            Content: <div style={{ backgroundColor: 'red', color: 'white'}}>这是一个jsx div元素</div>,
+            duration: 3000,
+            ItemWrapperStyle: { marginBottom: 36 }
+        })}
+    >
+        jsx div元素 - 自定义间距36
+    </button>
+    <button
+        onClick={() => Toast.show({
+            Content: <p style={{ backgroundColor: 'red', color: 'white'}}>这是一个jsx p元素</p>,
+            duration: 3000,
+            ItemWrapperStyle: { marginBottom: 36 }
+        })}
+    >
+        jsx p元素 - 自定义间距36
+    </button>
+</Playground>
+
+
+<br/>
+
+
+## 自定义消息列表样式
+
+默认情况下，消息列表居于屏幕中间，离顶部30%处。其样式如下。
+
+```javascript
+const ToastList = styled(List)`
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    z-index: 200;
+    pointer-events: none;
+` as typeof List;
+```
+
+可以通过 setListStyle, setListClassName 这两个API修改当前Toast实例下消息列表样式。(也是持久性的、全局的)
+
+<Playground>
+    <button
+        onClick={() => {
+            Toast.setListStyle();
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        固定居中弹出(默认)
+    </button>
+    <button
+        onClick={() => {
+            Toast.setListStyle({ top: '50%', transform: 'translate(-50%, -50%)'  });
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        自动居中弹出
+    </button>
+    <button
+        onClick={() => {
+            Toast.setListStyle({ top: '24px' });
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        上方正弹(新的在上)
+    </button>
+    <button
+        onClick={() => {
+            Toast.setListStyle({ top: '24px', flexDirection: 'column-reverse' });
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        上方反弹(新的在下)
+    </button>
+    <button
+        onClick={() => {
+            Toast.setListStyle({ top: 'unset', left: 'unset', transform: 'unset', right: '12px', bottom: '24px' });
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        右下正弹(新的在上)
+    </button>
+    <button
+        onClick={() => {
+            Toast.setListStyle({ top: 'unset', left: 'unset', transform: 'unset', right: '12px', bottom: '24px', flexDirection: 'column-reverse' });
+            Toast.show({
+                Content: '这是一条消息项',
+                duration: 3000,
+            });
+        }}
+    >
+        右下反弹(新的在下)
+    </button>
+</Playground>
+
+
+<br/>
+
+## 自定义进出场动画
+
+可以通过设置show的参数中的 animationType 属性改变进出场动画。
+
+animationType 可为 "zoom" | "blur" | "clipRectSp" | "clipRect" | "clipCircle" | "fade" | "flip" | "door" | "slideUp" | "slideDown" | "slideRight" | "slideLeft" | "rotate"　设置进出场动画。
+
+通过设置 animationDuration 属性(ms)，修改进出场动画持续时间。
+
+```javascript
+type animationDuration = number | { enter: number, leave: number }
+```
+
+<Playground>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项' })}
+    >
+        zoom(默认)
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'door' })}
+    >
+        door
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'fade' })}
+    >
+        fade
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'flip' })}
+    >
+        flip
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'rotate' })}
+    >
+        rotate
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'slideDown' })}
+    >
+        slideDown
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'slideUp' })}
+    >
+        slideUp
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'slideLeft' })}
+    >
+        slideLeft
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'slideRight' })}
+    >
+        slideRight
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'blur' })}
+    >
+        blur
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'clipCircle' })}
+    >
+        clipCircle
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'clipRect' })}
+    >
+        clipRect
+    </button>
+    <button
+        onClick={() => Toast.show({ Content: '这是一个消息项', animationType: 'clipRectSp' })}
+    >
+        clipRectSp
+    </button>
+</Playground>
+
+
+<br/>
+
+
+## 唯一
+
+通过设置 show 参数中的 unique 属性为 true，使得该消息项唯一(及如果存在其他消息项，哪怕还在持续时间内也会销毁)。
+
+<Playground>
+    <button onClick={() => Toast.show({ Content: '这是一个消息项', unique: true })}>唯一</button>
+</Playground>
+
+
+<br/>
+
+
+## 防重复
+
+通过设置 show 参数中的 preventDuplicate 属性为 true，防止消息项重复。
+
+生成消息项时会对Content内容进行一次浅比较检测。
+
+<Playground>
+    <button onClick={() => Toast.show({ Content: '防重复1', preventDuplicate: true })}>防重复1</button>
+    <button onClick={() => Toast.show({ Content: 123456, preventDuplicate: true })}>防重复2</button>
+</Playground>
+
+
+<br/>
+
+
+## 最大数量
+
+通过设置 show 参数中的 maximum 限制最大消息项数量。消息项数量大于该值时，早生成的将被销毁。
+
+<Playground>
+    <button onClick={() => Toast.show({ Content: `最多3个`, maximum: 3 })}>最大数量3</button>
+    <button onClick={() => Toast.show({ Content: `最多4个`, maximum: 4 })}>最大数量4</button>
+</Playground>
+
+
+<br/>
+
+
+## 消息队列
+
+通过设置 show 参数中的 queue 属性为 true， 将本次消息项加入消息队列。
+
+消息队列中的头部消息项，将在消息列表中的消息项为空时自动渲染。
+
+<Playground>
+    <button onClick={() => Toast.show({ Content: `消息队列中的消息项`, queue: true })}>消息队列</button>
+</Playground>
+
+
+<br/>
+
+
+## 永久显示和手动关闭
+
+通过设置 show 参数中的 duration 为 0 时，消息项将不会自动销毁。
+
+而 show API 的调用将会返回一个key值标识当前消息项， 当然也可以在 show 的参数中设置 key 属性(number | string)手动赋予该标识(key相同时消息项不会重复生成)。
+
+然后调用另外两个API -- hide(key: string | number), hideAll() 来手动关闭消息项。
+
+hideAll API 会把消息队列中的消息项也一并清空。
+
+<Playground>
+    <button onClick={() => Toast.show({ Content: `key='1314'`, key: '1314', duration: 0 })}>key='1234'</button>
+    <button onClick={() => Toast.hide('1314')}>销毁key='1314'</button>
+    <button onClick={() => {
+        const key = Toast.show({ Content: `key自动生成` });
+        setTimeout(() => Toast.hide(key), 10000);
+    }}>
+        key自动生成
+    </button>
+    <button onClick={() => Toast.hideAll()}>销毁所有</button>
+</Playground>
+
+
+<br/>
+
+
+## 销毁回调
+
+通过 show 参数中的 onClose 参数，设置消息项销毁的回调函数。
+
+
+<br/>
+
+
+## 蒙版
+
+有了永久显示和手动关闭，现在距离Modal差的，就是蒙版了。
+
+尽管提供了功能，但是非常不建议把Toast用在这么重的交互上。
+
+如果非要这么做，在 show API的参数中设置 showMask 属性为true即可开启蒙版。
+
+蒙版会屏蔽底下东西的点击，阻止body窗口的滚动，让用户聚焦在消息项上。
+
+当所有带 showMask 的消息项销毁时，蒙版才会销毁。
+
+<Playground>
+    <button
+        onClick={() => Toast.show({
+            Content: 
+                <div
+                    style={{ padding: 24, backgroundColor: '#fff' }}
+                >
+                    <button onClick={() => Toast.hide('mask')}>点击销毁该消息项</button>
+                    <button onClick={() => Toast.show({ Content: '这是一个持续3秒的消息项' })}>点击生成持续3秒的消息项</button>
+                </div>,
+            showMask: true,
+            key: 'mask',
+            duration: 0
+        })}
+    >
+        带蒙版的消息项
+    </button>
+</Playground>
+
+
+<br/>
+
+
+## 自定义蒙版样式
+
+现在画风越来越奇怪了。
+
+甚至可以通过 setMaskStyle, setMaskClassName 这两个API修改当前Toast实例下属蒙版样式。(当然也是持久性的)
+
+<Playground>
+    <button
+        onClick={() => {
+            Toast.setMaskStyle({ backgroundColor: 'green' });
+            Toast.show({ Content: `改变蒙版背景色-绿`, duration: 3000, showMask: true })
+        }}
+    >
+        改变蒙版背景色-绿
+    </button>
+    <button
+        onClick={() => {
+            Toast.setMaskStyle({ backgroundColor: 'red' });
+            Toast.show({ Content: `改变蒙版背景色-红`, duration: 3000, showMask: true })
+        }}
+    >
+        改变蒙版背景色-红
+    </button>
+    <button
+        onClick={() => {
+            Toast.setMaskStyle();
+            Toast.show({ Content: `改变蒙版背景色-默认`, duration: 3000, showMask: true })
+        }}
+    >
+        改变蒙版背景色-默认
+    </button>
+</Playground>
+
+
+<br/>
+
+
+## 设置蒙版点击事件
+
+其实离真正的Modal还差了个东西 -- 那就是点击蒙版关闭提示。
+
+因为消息项不像Modal一般同时只有一个，不可能内置点击蒙版把全部消息项销毁，所以把选择权移交了出来。
+
+通过 setMaskClickHandler 这个API修改当前Toast实例下属蒙版click handler。(当然也是持久性的， 如果当前Toast实例存在多种情况复用，记得用完重置clickHandler)
+
+<Playground>
+    <button
+        onClick={() => {
+            Toast.setMaskClickHandler(() => {
+                Toast.hideAll();
+                Toast.setMaskClickHandler();
+            });
+            Toast.show({
+                Content: 
+                    <div
+                        style={{ padding: 24, backgroundColor: '#fff' }}
+                    >
+                        <button onClick={() => Toast.hide('mask')}>点击销毁该消息项</button>
+                        <button onClick={() => Toast.show({ Content: '这是一个持续10秒的消息项', duration: 10000 })}>点击生成持续10秒的消息项</button>
+                        点击蒙版销毁全部存在的消息项
+                    </div>,
+                showMask: true,
+                key: 'mask',
+                duration: 0
+            });
+        }}
+    >
+        点击蒙版销毁全部消息项目
+    </button>
+    <button
+        onClick={() => {
+            Toast.setMaskClickHandler(() => {
+                Toast.hide('mask');
+                Toast.setMaskClickHandler();
+            });
+            Toast.show({
+                Content: 
+                    <div
+                        style={{ padding: 24, backgroundColor: '#fff' }}
+                    >
+                        <button onClick={() => Toast.hide('mask')}>点击销毁该消息项</button>
+                        <button onClick={() => Toast.show({ Content: '这是一个持续10秒的消息项', duration: 10000 })}>点击生成持续10秒的消息项</button>
+                        点击蒙版单独销毁伪Modal消息项
+                    </div>,
+                showMask: true,
+                key: 'mask',
+                duration: 0
+            });
+        }}
+    >
+        点击蒙版单独销毁伪Modal消息项
+    </button>
+</Playground>
+
+
+<br />
+
+
+## API
+
+组件提供了一些静态方法，使用方式和参数如下：
++ Toast.init(container?: HTMLElement) -- 用于函数调用式初始化容器
+
++ Toast.Provider -- 用于组件调用式初始化容器
+
++ Toast.show(config: Object): string | number -- 用于生成一个消息项，返回标识消息项的key，用以手动hide
+
+config对象的可选属性如下
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| *Content | 消息项内容(必填) | 合法的ReactNode |
+| key | 消息项标识 | string | number | 内部自动生成 |
+| duration | 消息项持续时间(ms) | number | 3000 |
+| preventDuplicate | 防重复 | boolean | false |
+| unique | 唯一 | boolean | false |
+| queue | 加入消息队列 | boolean | false |
+| maximum | 最大消息项数量 | number |
+| showMask | 显示蒙版 | boolean | false |
+| animationType | 消息项过渡动画 | "zoom" \| "blur" \| "clipRectSp" \| "clipRect" \| "clipCircle" \| "fade" \| "flip" \| "door" \| "slideUp" \| "slideDown" \| "slideRight" \| "slideLeft" \| "rotate" | "zoom" |
+| animationDuration | 消息项动画持续时间(ms) | number \| { enter, leave } |
+| onClose | 消息项销毁回调 | Function |
+
++ Toast.hide(key: string | number) -- 手动销毁key值对应的消息项
+
++ Toast.hideAll() -- 手动销毁所有消息项
+
++ Toast.setMaskStyle(style?: CSSProperties), Toast.setMaskClassName(className?: string) -- 全局设置当前Toast实例下属蒙版样式
+
++ Toast.setMaskClickHandler(handler?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void)) -- 全局设置当前Toast实例下属蒙版响应点击函数
+
++ Toast.setListStyle(style?: CSSProperties), Toast.setListClassName(className?: string) -- 全局设置当前Toast实例下属消息列表样式
+
++ Toast.setItemWrapperStyle(style?: CSSProperties), Toast.setItemWrapperClassName(className?: string) -- 全局设置当前Toast实例下属消息项容器样式

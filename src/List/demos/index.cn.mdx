@@ -1,0 +1,327 @@
+---
+name: F. 列表-List
+route: /list
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import List from "../index";
+import BasicDemo from "./basic";
+import TransitionAnimationDemo from "./transitionAnimation";
+import AnimatedHeightDemo from "./animatedHeight";
+import WrapperStyleDemo from "./wrapperStyle";
+
+#### 简介
+
+带有进出场动画的列表
+
+
+## 基础用法 -- list 和 children
+
+List组件要求一个包含key关键字的对象数组作为数据源， 作为 list 属性的值。
+
+同时提供一个返回合法JSX.Element的render function(渲染函数)作为children，function中的第一个参数是list中item的值。
+
+这里之所以选择用render function + list 属性这种形式，返回一个和本身的item数据没有任何变化的回调参数，而不是采用map出ReactNode的方式，是考虑到这样做可以有更为严格合理的ts类型限制。
+
+```javascript
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import List, { ItemProps } from '../index';
+
+interface Item extends ItemProps {
+    bgColor?: string
+}
+
+let key = 0;
+
+const ListItem = styled.div<{ bgColor: string }>`
+    width: 200px;
+    height: 60px;
+    background-color: ${({ bgColor }) => bgColor};
+    margin-top: 12px;
+`;
+
+const BasicDemo = () => {
+    const [list, setList] = useState<Item[]>([{
+        key,
+        bgColor: 'red'
+    }]);
+
+    const addItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * list.length);
+            const newList = pre.slice();
+            newList.splice(random, 0, {
+                key: ++key,
+                bgColor: '#' + Math.random().toString(16).substr(2, 6).toUpperCase(),
+            })
+            return newList;
+        });
+    }, []);
+
+    const removeItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * pre.length);
+            return pre.filter((_, index) => index !== random);
+        });
+    }, []);
+    
+    return (
+        <div>
+            <button onClick={addItem}>add</button>
+            <button onClick={removeItem}>remove</button>
+            <List list={list}>
+                {item => <ListItem bgColor={item.bgColor} />}
+            </List>
+        </div>
+    )
+}
+```
+
+<Playground>
+    <BasicDemo />
+</Playground>
+
+
+<br/>
+
+
+## 进出场动画和动画持续时间
+
+通过设置 animationType 为 "zoom" | "blur" | "clipRectSp" | "clipRect" | "clipCircle" | "fade" | "flip" | "door" | "slideUp" | "slideDown" | "slideRight" | "slideLeft" | "rotate"　设置进出场动画。
+
+默认为 "zoom"。
+
+通过设置 animationDuration　属性(ms)，修改弹框进出场动画持续时间。
+
+```javascript
+type animationDuration = number | { enter: number, leave: number }
+```
+
+这两个属性可以做为List的属性应用在每个列表项，也可以作为列表项自身的属性（优先级更高）。
+
+
+```javascript
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import List, { ItemProps } from '../index';
+
+interface Item extends ItemProps {
+    bgColor?: string
+}
+
+let key = 0;
+
+const ListItem = styled.div<{ bgColor: string }>`
+    width: 200px;
+    height: 60px;
+    background-color: ${({ bgColor }) => bgColor};
+    margin-top: 12px;
+`;
+
+const TransitionAnimationDemo = () => {
+    const [list, setList] = useState<Item[]>([]);
+
+    const addItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * list.length);
+            const newList = pre.slice();
+            newList.splice(random, 0, {
+                key: ++key,
+                bgColor: (key - 1) % 2 === 0 ? '#' + Math.random().toString(16).substr(2, 6).toUpperCase() : 'red',
+                animationType: (key - 1) % 2 === 0 ? 'slideLeft' : undefined,
+                animationDuration: (key - 1) % 2 === 0 ? { enter: 600, leave: 1000 } : undefined
+            })
+            return newList;
+        });
+    }, []);
+
+    const removeItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * pre.length);
+            return pre.filter((_, index) => index !== random);
+        });
+    }, []);
+
+    return (
+        <div>
+            <button onClick={addItem}>add</button>
+            <button onClick={removeItem}>remove</button>
+            <List list={list} animationType='door' animationDuration={300}>
+                {item => <ListItem bgColor={item.bgColor}>{item.animationType ? '组件自身动画' : '列表全局动画'}</ListItem>}
+            </List>
+        </div>
+    )
+}
+```
+
+<Playground>
+    <TransitionAnimationDemo />
+</Playground>
+
+
+<br/>
+
+
+## 高度变化动画
+
+通过设置 List 的 animatedHeight 属性为 true 开启进出场高度变化动画。
+
+开启高度变化动画会在 List Item 外额外附着一层容器div元素。
+
+
+```javascript
+import React, { useState, useCallback, forwardRef } from 'react';
+import styled from 'styled-components';
+import List, { ItemProps } from '../index';
+interface Item extends ItemProps {
+    bgColor?: string;
+}
+let key = 0;
+const ListItem = styled.div<{ bgColor?: string }>`
+    width: 200px;
+    height: 60px;
+    background-color: ${({ bgColor }) => bgColor || 'black'};
+    margin-top: 12px;
+`;
+const AnimatedHeightDemo = () => {
+    const [list, setList] = useState<Item[]>([{
+        key,
+        bgColor: 'red'
+    }]);
+    const addItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * list.length);
+            const newList = pre.slice();
+            newList.splice(random, 0, {
+                key: ++key,
+                bgColor: '#' + Math.random().toString(16).substr(2, 6).toUpperCase(),
+            })
+            return newList;
+        });
+    }, []);
+    const removeItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * pre.length);
+            return pre.filter((_, index) => index !== random);
+        });
+    }, []);
+    return (
+        <div>
+            <button onClick={addItem}>add</button>
+            <button onClick={removeItem}>remove</button>
+            <List list={list} animatedHeight>
+                {item => <ListItem bgColor={item.bgColor} />}
+            </List>
+        </div>
+    )
+}
+```
+
+<Playground>
+    <AnimatedHeightDemo />
+</Playground>
+
+
+<br/>
+
+
+## 列表项容器样式与泛型阻断
+
+每个列表项Item外层有一个内置的容器用于动画变化。
+
+容器不带任何样式，一般情况下不用管这个容器。如果你想为Iem设置margin边距，Item的margin属性也会重叠在容器上。
+
+但是如果当你改变Item为BFC时，比如当设置List本身的display为flex时，或者将Item改为inline类型时，margin的重叠现象不再生效。
+
+这时候可以通过ItemWrapperStyle, ItemWrapperClassName属性给Item容器设置margin。
+
+同样的，这两个属性可以做为List的属性应用在每个列表项，也可以作为列表项自身的属性（优先级更高）。
+
+如果用styled-compoennts styled List组件, 组件的泛型输入会被阻断， render function中的类型变为any， 此时可以用 as typeof List 简单地强制声明。
+
+
+```javascript
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import List, { ItemProps } from '../index';
+
+interface Item extends ItemProps {
+    bgColor?: string
+}
+
+let key = 0;
+
+const StyledList = styled(List)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+` as typeof List;
+
+
+const ListItem = styled.div<{ bgColor: string }>`
+    width: 200px;
+    height: 60px;
+    background-color: ${({ bgColor }) => bgColor};
+`;
+
+const WrapperStyleDemo = () => {
+    const [list, setList] = useState<Item[]>([{
+        key,
+        bgColor: 'red'
+    }]);
+
+    const addItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * list.length);
+            const newList = pre.slice();
+            newList.splice(random, 0, {
+                key: ++key,
+                bgColor: '#' + Math.random().toString(16).substr(2, 6).toUpperCase(),
+                ItemWrapperStyle: (key - 1) % 2 === 0 ? { marginBottom: 36 } : undefined
+            })
+            return newList;
+        });
+    }, []);
+
+    const removeItem = useCallback(() => {
+        setList(pre => {
+            const random = Math.floor(Math.random() * pre.length);
+            return pre.filter((_, index) => index !== random);
+        });
+    }, []);
+
+    return (
+        <div>
+            <button onClick={addItem}>add</button>
+            <button onClick={removeItem}>remove</button>
+            <StyledList list={list} animatedHeight ItemWrapperStyle={{ marginBottom: 12 }}>
+                {item => <ListItem bgColor={item.bgColor} />}
+            </StyledList>
+        </div>
+    )
+}
+```
+
+<Playground>
+    <WrapperStyleDemo />
+</Playground>
+
+
+<br/>
+
+
+## 其他任意原生html属性、事件
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| list | 数据源 | Array of item extends { key: number \| string, duration?: , animationType?: } |
+| children | 渲染函数 | (item, ref) => ReactNode |
+| animationType | 过渡动画 | "zoom" \| "blur" \| "clipRectSp" \| "clipRect" \| "clipCircle" \| "fade" \| "flip" \| "door" \| "slideUp" \| "slideDown" \| "slideRight" \| "slideLeft" \| "rotate" | "zoom" |
+| animationDuration | 动画持续时间(ms) | number \| { enter, leave } |
+| ItemWrapperClassName | 列表项容器class | string |
+| ItemWrapperStyle | 列表项容器style | React.CSSProperties |
+| 其他 | html属性 | 如 class, style, onClick 等 | |

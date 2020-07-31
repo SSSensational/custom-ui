@@ -1,0 +1,31 @@
+---
+name: D. 文字提示-ToolTip
+route: /tooltip
+menu: 通用组件-组合
+---
+import { Playground } from "docz"; 
+import Popper from "../index";
+
+
+#### 简介
+
+Popper的简单封装，去掉 Content 属性，改为 title 属性， 默认开启箭头。
+
+
+## 示例
+
+通过设置 title 属性设置文字内容， 只接受字符串。
+
+<Playground>
+    <Popper title="这是一个文字提示">
+        <button>文字提示</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## API
+
+除 Content， 其他属性与 Popper 组件一致。

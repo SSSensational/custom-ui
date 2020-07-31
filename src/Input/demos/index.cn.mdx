@@ -1,0 +1,297 @@
+---
+name: A. 输入框-Input
+route: /input
+menu: 表单组件
+---
+import { Playground } from "docz"; 
+import Input from "./StyledInput";
+
+#### 简介
+
+输入框
+
+
+## 类型
+
+通过设置 variant 属性为 "standard"(默认) | "outlined" 修改输入框的类型。
+
+<Playground>
+    <Input />
+    <Input variant="outlined" />
+</Playground>
+
+
+<br/>
+
+
+## 输入提示
+
+通过设置 label 属性 可以为输入框添加输入提示。
+
+通过设置 labelBefore 属性 可以分离浮至输入框上边的label和在输入框里边时的label。
+
+如果只设置 labelBefore 属性 则相当于浏览器默认input的placeholder属性效果。(placeholder在Input组件类型声明中被移除)
+
+<Playground>
+    <Input label="请输入手机号" />
+    <Input variant="outlined" label="请输入手机号" />
+    <Input label="手机号" labelBefore="请输入" />
+    <Input labelBefore="请输入手机号" />
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 属性为 "合法的css长度单位" 可以改变输入文字大小，输入框整体高度会随之改变(默认20px)。
+
+通过设置 size 为符合如下 CustomSize定义的对象可以对大小进一步自定义。(对象的键值也都是 "合法的css长度单位")
+
+通过设置 fullWidth 属性为true可以使输入框宽度占满父级(优先级最高)。
+
+```javascript
+interface CustomSize {
+    fontSize: number | string,
+    width?: number | string,
+    height?: number | string,
+    padding?: [number | string, number | string] | [number | string, number | string, number | string, number | string];
+}
+```
+
+<Playground>
+    <Input size={28} label="请输入手机号" />
+    <Input size={{ fontSize: 22 }} label="请输入手机号" />
+    <Input
+        variant="outlined"
+        size={{ fontSize: 22, width: '400px', height: 60, padding: [16, 24] }}
+        label="请输入手机号"
+    />
+    <Input variant="outlined" size={16} fullWidth label="请输入手机号" />
+</Playground>
+
+
+<br/>
+
+
+## 前置图标
+
+通过 iconBefore 属性 设置Input的前置图标
+
+通过 iconInnerBorder 属性， 联动设置 standard 型 Input的前置图标是否包含在下边框内(默认false)， 联动设置 outlined 型 Input的label是否把前置图标包含(默认true)。
+
+<Playground>
+    <Input
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+    />
+    <Input
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+        iconInnerBorder
+        size={24}
+    />
+    <Input
+        variant="outlined"
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/pwd.svg"
+    />
+    <Input
+        variant="outlined"
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/pwd.svg"
+        iconInnerBorder={false}
+        size={24}
+    />
+</Playground>
+
+
+<br/>
+
+
+## 显示清空按钮
+
+通过设置 clearable 属性为 true，启用后置 清空输入按钮。
+
+清空输入按钮在Input处于focus状态，并且有至少一个输入字符时，才会显示出来。
+
+<Playground>
+    <Input clearable />
+    <Input variant="outlined" clearable />
+</Playground>
+
+
+<br/>
+
+
+## 带明密文切换的密码框
+
+当Input是个密码框时，即type属性为 "password" 时， 通过设置 revealable 属性为true， 启用后置 切换明/密文按钮。
+
+切换按钮在Input处于focus状态，并且有至少一个输入字符时，才会显示出来。
+
+<Playground>
+    <Input label="密码" labelBefore="请输入" type="password" />
+    <Input
+        label="密码"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/pwd.svg"
+        type="password"
+        revealable
+        clearable
+    />
+    <Input
+        variant="outlined"
+        label="密码"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/pwd.svg"
+        type="password"
+        revealable
+    />
+    <Input label="密码" labelBefore="请输入" type="password" revealable />
+    <Input
+        variant="outlined"
+        label="密码"
+        labelBefore="请输入"
+        type="password"
+        revealable
+        clearable
+    />
+</Playground>
+
+
+<br/>
+
+
+## 聚焦颜色
+
+通过设置 focusColor 属性改变Input的聚焦颜色(默认#26a69a)。
+
+<Playground>
+    <Input
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+        focusColor="#1890ff"
+    />
+    <Input
+        variant="outlined"
+        label="密码"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+        focusColor="#ff7875"
+    />
+</Playground>
+
+
+<br/>
+
+
+## 错误提示
+
+如果 helperText 属性存在，则当 error 属性为true(优先级高)或者输入框当前的值不符合 pattern 属性中的正则表达式时，显示错误提示。
+
+可以通过设置 helperPlacement 属性调整错误提示位置，可选"bottom-center" | "bottom-right"(默认) | "bottom-left" | "top-right" | "top-center"。
+
+可以通过设置 errorColor 属性为 "合法的css颜色字符串" 设置错误提示的颜色。
+
+也可以设置 errorColor 属性为 符合如下规则的对象，并设置对象的 focus 属性为 true，使得错误提示存在时，整个Input的聚焦颜色都变为对象中的color属性指定的颜色。
+
+```javascript
+interface CustomErrorColor {
+    color: string;
+    focus?: boolean;
+}
+```
+
+<Playground>
+    <Input
+        label="手机号"
+        labelBefore="请输入"
+        helperText="手机号错误"
+        pattern="1[3-9][0-9]{9}"
+        helperPlacement="bottom-right"
+    />
+    <Input
+        variant="outlined"
+        label="请输入手机号"
+        helperText="手机号错误"
+        pattern="1[3-9]\\d{9}"
+    />
+    <Input
+        label="请输入手机号"
+        helperText="手机号错误"
+        error
+        helperPlacement="top-right"
+        errorColor="black"
+    />
+    <Input
+        variant="outlined"
+        label="请输入手机号"
+        error
+        helperText="手机号错误"
+        helperPlacement="top-center"
+        errorColor={{ color: 'blue', focus: true }}
+    />
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+通过设置 disabled 属性为 true 使输入库处于禁用状态。
+
+<Playground>
+    <Input
+        label="手机号"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+        disabled
+    />
+    <Input
+        variant="outlined"
+        label="密码"
+        labelBefore="请输入"
+        iconBefore="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/user.svg"
+        disabled
+    />
+</Playground>
+
+
+<br/>
+
+
+## 其他原生HTML input属性
+
+除了 fontSize, width, placeholder 之外的所有原生HTML input属性。如 id、type ……
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| variant | 类型 | "standard" \| "outlined" | "standard" |
+| label | 输入提示(浮动) | string |
+| labelBefore | 输入提示(固定，分离) | string |
+| size | 大小 | "合法的css长度单位" \| { fontSize, width, height, padding } | "20px" |
+| iconBefore | 前置图标 | string |
+| iconInnerBorder | 是否包含前置图标 | boolean |
+| clearable | 启用清空按钮 | boolean | false |
+| revealable | 启用切换明密文按钮 | boolean | false |
+| focusColor | 聚焦颜色 | "合法的css颜色字符串" | "#26a69a" |
+| helperText | 错误提示 | string |
+| error | 强制显示错误提示 | boolean |
+| helperPlacement | 错误提示位置 | "bottom-center" \| "bottom-right" \| "bottom-left" \| "top-right" \| "top-center" \| "bottom-right" |
+| errorColor | 错误时颜色 | "合法的css颜色字符串" \| { color, focus } | "red" |
+| disabled | 是否禁用 | boolean | false |
+| 其他 | html属性 | 如 class, style, id 等 |

@@ -1,0 +1,191 @@
+---
+name: C. 单选框-Radio
+route: /radio
+menu: 表单组件
+---
+import { Playground } from "docz"; 
+import Radio from "../index";
+
+#### 简介
+
+多选框
+
+
+## 可交互背景
+
+设置 interactive 为 "background"(默认) / true 启用选择框可交互背景，false 关闭。
+
+当 interactive 为 "background" 时， 可交互背景的并不占据真实空间，为true时占据真实空间。
+
+<Playground>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Radio interactive="background">单选框1</Radio>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Radio interactive={true}>单选框2</Radio>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Radio interactive={false}>单选框3</Radio>>
+</Playground>
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 属性为 "合法的css颜色字符串" 改变Radio颜色(默认为"#3E4DA7")。
+
+<Playground>
+    <Radio color="red">选择框1</Radio>
+    <Radio color="green">选择框2</Radio>
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 属性为 "合法的css长度单位" 改变Radio大小(默认为"20px")。
+
+<Playground>
+    <Radio size={14}>选择框1</Radio>
+    <Radio size="32px">选择框2</Radio>
+</Playground>
+
+
+<br/>
+
+
+## children标签放置位置
+
+通过设置 labelPlacement 属性为 "bottom" | "top" | "left" | "right"(默认) 改变children标签放置位置。
+
+<Playground>
+    <Radio labelPlacement="bottom">在下面</Radio>
+    <Radio labelPlacement="top">在上面</Radio>
+    <Radio labelPlacement="right">在右边</Radio>
+    <Radio labelPlacement="left">在左边</Radio>
+</Playground>
+
+
+<br/>
+
+
+## children标签离多选框距离
+
+通过设置 labelDistance 属性为 "合法的css长度单位" 设置children标签离多选框的距离。(默认.5em)
+
+<Playground>
+    <Radio labelDistance={24}>24px</Radio>
+    <Radio labelDistance="3em">3em</Radio>
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+通过设置 disabled 属性为 true 禁用选择框
+
+<Playground>
+    <Radio disabled>禁用状态</Radio>
+    <Radio disabled checked>禁用状态</Radio>
+</Playground>
+
+
+<br/>
+
+
+## 其他原生HTML input type="radio" 的属性
+
+受控、非受控，id等。
+
+
+<br/>
+
+
+## 选择框群组
+
+可以通过Radio.Group包裹Radio，来集体控制Radio。Group是个纯粹控制组件，不生成元素。
+
+不要求是直接子代关系，可以任意布局。但是要求Radio填写 name 属性，未填写的不算在Group里。
+
+可以通过给Radio.Group 设置 disabled 属性为 true，来禁用这个群组里的所有单选框。
+
+可以通过给Radio.Group 设置 max 属性来限制这个群组最多勾选几个单选框, 默认为 1。
+
+可以给非受控的Radio.Group设置 defaultValue 属性来控制其默认选中项。
+
+<Playground>
+    {() => {
+        const [group1, setGroup1] = React.useState([]);
+        const [group2, setGroup2] = React.useState(['g']);
+        return (
+            <>
+                <Radio.Group onChange={value => setGroup1(value)}>
+                    <Radio name="a">选择框a</Radio>
+                    <Radio name="b">选择框b</Radio>
+                </Radio.Group>
+                <span style={{ marginLeft: 24 }}>群组值： [{group1.join(', ')}]</span>
+                <div />
+                <Radio.Group disabled>
+                    <Radio name="c">选择框c</Radio>
+                    <Radio name="d">选择框d</Radio>
+                    <Radio>选择框未填name，所以不被禁用</Radio>
+                </Radio.Group>
+                <div />
+                <Radio.Group defaultValue={group2} max={2} onChange={value => setGroup2(value)}>
+                    <Radio name="f">选择框f</Radio>
+                    <Radio name="g">选择框g</Radio>
+                    <Radio name="h">选择框h</Radio>
+                    <Radio name="i">选择框i</Radio>
+                    <span style={{ marginLeft: 24 }}>群组值： [{group2.join(', ')}]</span>
+                </Radio.Group>
+            </>
+        )
+    }}
+</Playground>
+
+
+<br/>
+
+
+## 受控模式下的选择框群组
+
+通过给 Radio.Group 设置 value 和 onChange 属性使其受控。
+
+value 属性要求为仅包含其内Radio name的群组。
+
+<Playground>
+    {() => {
+        const [value, setValue] = React.useState(['j']);
+        return (
+            <>
+                <Radio.Group value={value} onChange={value => setValue(value)}>
+                    <Radio name="j">选择框j</Radio>
+                    <Radio name="k">选择框k</Radio>
+                    <Radio name="l">选择框l</Radio>
+                    <Radio name="m">选择框m</Radio>
+                    <span style={{ marginLeft: 24 }}>群组值： [{value.join(', ')}]</span>
+                </Radio.Group>
+            </>
+        );
+    }}
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| interactive | 可交互背景 | "background" \| boolean  | "background" |
+| color | 颜色 | "合法的css颜色字符串" | "#3E4DA7" |
+| size | 大小 | " "合法的css长度单位" | "20px" |
+| labelPlacement | 标签位置 | "bottom" \| "top" \| "left" \| "right" | "right" |
+| labelDistance | 标签距离 | "合法的css长度单位" | ".5em" |
+| disabled | 禁用状态 | boolean | false |
+| 其他 | html属性 | 如 id, required 等 |

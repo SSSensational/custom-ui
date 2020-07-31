@@ -1,0 +1,113 @@
+{
+    "name": "custom-ui",
+    "version": "0.0.0",
+    "description": "Some React UI Components with basic action and animation.Design for further devlop.",
+    "keywords": [
+        "custom-ui",
+        "UI",
+        "react",
+        "react-component",
+        "component",
+        "components"
+    ],
+    "homepage": "http://www.barrenstar.cn",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SSSensational/custom-ui.git"
+    },
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "files": [
+        "lib/",
+        "es/"
+    ],
+    "typings": "lib/index.d.ts",
+    "sideEffects": false,
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "scripts": {
+        "commit": "git-cz",
+        "test": "jest",
+        "dev": "docz dev",
+        "dev:cn": "docz dev --config=doczrc.cn.js",
+        "start": "npm run dev:cn",
+        "release": "node scripts/release.js",
+        "build": "father-build build",
+        "build:doc": "rimraf site && docz build --config=doczrc.cn.js",
+        "preview:doc": "docz serve site",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage"
+    },
+    "author": {
+        "name": "SSSensational",
+        "email": "sss18201672034@163.com"
+    },
+    "license": "MIT",
+    "peerDependencies": {
+        "@tippyjs/react": "^4.1.0",
+        "color": "^3.1.2",
+        "lodash-es": "^4.17.15",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-hook-form": "^6.0.8",
+        "react-spring": "^9.0.0-rc.3",
+        "react-use": "^15.3.3",
+        "react-use-gesture": "^7.0.15",
+        "resize-observer-polyfill": "^1.5.1",
+        "styled-components": "^5.1.1",
+        "tippy.js": "^6.2.4"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^9.1.1",
+        "@commitlint/config-conventional": "^9.1.1",
+        "@testing-library/jest-dom": "^5.11.0",
+        "@testing-library/react": "^10.4.3",
+        "@types/color": "^3.0.1",
+        "@types/jest": "^26.0.3",
+        "@types/lodash-es": "^4.17.3",
+        "@types/react": "^16.9.41",
+        "@types/react-dom": "^16.9.8",
+        "@types/sinon": "^9.0.4",
+        "@types/styled-components": "^5.1.0",
+        "@types/testing-library__react": "^10.2.0",
+        "ali-oss": "^6.10.0",
+        "babel-core": "^6.26.3",
+        "babel-preset-react-app": "^9.1.2",
+        "commitizen": "^4.1.2",
+        "cz-conventional-changelog": "^3.2.0",
+        "docz": "^2.3.1",
+        "father-build": "^1.18.2",
+        "husky": "^4.2.5",
+        "jest": "^26.1.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "rimraf": "^3.0.2",
+        "semver": "^7.3.2",
+        "sinon": "^9.0.2",
+        "standard-version": "^8.0.2",
+        "ts-jest": "^26.1.1",
+        "tslib": "^2.0.0",
+        "typescript": "^3.9.7"
+    },
+    "dependencies": {
+        "@babel/runtime": "^7.11.0",
+        "@tippyjs/react": "^4.1.0",
+        "color": "^3.1.2",
+        "lodash-es": "^4.17.15",
+        "react-hook-form": "^6.0.8",
+        "react-spring": "^9.0.0-rc.3",
+        "react-use": "^15.3.3",
+        "react-use-gesture": "^7.0.15",
+        "resize-observer-polyfill": "^1.5.1",
+        "styled-components": "^5.1.1",
+        "tippy.js": "^6.2.4"
+    }
+}

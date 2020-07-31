@@ -1,0 +1,246 @@
+---
+name: H. 模态-Modal
+route: /modal
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import Modal from "../index";
+import BasicDemo from './basic';
+import CloseDemo from './close';
+
+#### 简介
+
+模态，用于重量级的交互提示上。不提供预置的功能区块，取消、确认按钮等，只提供基础的过渡动画和蒙版等效果。
+
+## 放置容器
+
+Modal需要一个容器来放置，通过 container 属性指定一个合法的DOM HTML元素指定。
+
+如果未指定，将默认在body项下生成 id 为 'modal-container' 的div元素作为放置容器。
+
+
+
+## 开关与基础用法
+
+通过设置 open 属性开关Modal。
+
+Modal框的包裹容器，即Modal组件本身，会自适应子元素的宽高。
+
+也可以通过 className, style 属性，直接设置其样式。
+
+```javascript
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Modal from '../index';
+const Modal1Content = styled.div`
+    display: inline-block;
+    width: 400px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, .5);
+`
+const Modal2 = styled(Modal)`
+    width: 200px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, .5);
+`
+const BasicDemo = () => {
+    const [open1, set1] = useState(false);
+    const [open2, set2] = useState(false);
+    return (
+        <>
+            <button onClick={() => set1(true)}>打开Modal1</button>
+            <Modal open={open1}>
+                <Modal1Content>
+                    <p>这是模态框1</p>
+                    <button onClick={() => set1(false)}>关闭Modal1</button>
+                </Modal1Content>
+            </Modal>
+            <button onClick={() => set2(true)}>打开Modal2</button>
+            <Modal2 open={open2} style={{ color: 'red '}}>
+                <p>这是模态框2</p>
+                <button onClick={() => set2(false)}>关闭Modal2</button>
+            </Modal2>
+        </>
+    );
+}
+```
+
+<Playground>
+    <BasicDemo />
+</Playground>
+
+
+<br/>
+
+## 按esc键与点击其他位置关闭
+
+通过设置 escToClose(默认为true) 和 clickToClose 这两个属性为true， 使在按下esc键和点击页面非模态框的其他位置时，触发Modal的onClose事件。
+
+```javascript
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Modal from '../index';
+
+const Content = styled.div`
+    display: inline-block;
+    width: 400px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, .5);
+`
+
+const CloseDemo = () => {
+    const [open, set] = useState(false);
+    const openModal = () => {
+        set(true);
+    }
+    const closeModal = () => {
+        set(false);
+    }
+    return (
+        <>
+            <button onClick={openModal}>打开Modal</button>
+            <Modal open={open} escToClose clickToClose onClose={closeModal} >
+                <Content>
+                    <p>按esc键或者点击其他地方关闭</p>
+                </Content>
+            </Modal>
+        </>
+    );
+}
+```
+
+<Playground>
+    <CloseDemo />
+</Playground>
+
+
+<br/>
+
+
+## 自定义进出场动画
+
+通过设置 animationType 属性改变进出场动画。
+
+animationType 可为 "zoom"(默认) | "fade" | "flip" | "door" | "slideUp" | "slideDown" | "slideRight" | "slideLeft" | "rotate" | "blur" | "clipRectSp" | "clipRect" | "clipCircle" 设置进出场动画。
+
+通过设置 animationDuration 属性(ms)，修改进出场动画持续时间
+
+```javascript
+type animationDuration = number | { enter: number, leave: number }
+```
+
+<Playground>
+    {() => {
+        const [zoom, setZoom] = React.useState(false);
+        const [flip, setFlip] = React.useState(false);
+        const [door, setDoor] = React.useState(false);
+        const [slideUp, setSlideUp] = React.useState(false);
+        const [slideDown, setSlideDown] = React.useState(false);
+        const [slideLeft, setSlideLeft] = React.useState(false);
+        const [slideRight, setSlideRight] = React.useState(false);
+        const [rotate, setRotate] = React.useState(false);
+        const [clipRectSp, setClipRectSp] = React.useState(false);
+        const [clipRect, setSlipRect] = React.useState(false);
+        const [clipCircle, setClipCircle] = React.useState(false);
+        const [blur, setBlur] = React.useState(false);
+        return (
+            <>
+                <button onClick={() => setZoom(true)}>打开 zoom</button>
+                <Modal animationType="zoom" open={zoom} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setZoom(false)}>关闭 zoom</button>
+                </Modal>
+                <button onClick={() => setFlip(true)}>打开 flip</button>
+                <Modal animationType="flip" open={flip} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setFlip(false)}>关闭 flip</button>
+                </Modal>
+                <button onClick={() => setDoor(true)}>打开 door</button>
+                <Modal animationType="door" open={door} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setDoor(false)}>关闭 door</button>
+                </Modal>
+                <button onClick={() => setSlideUp(true)}>打开 slideUp</button>
+                <Modal animationType="slideUp" open={slideUp} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setSlideUp(false)}>关闭 slideUp</button>
+                </Modal>
+                <button onClick={() => setSlideDown(true)}>打开 slideDown</button>
+                <Modal animationType="slideDown" open={slideDown} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setSlideDown(false)}>关闭 slideDown</button>
+                </Modal>
+                <button onClick={() => setSlideLeft(true)}>打开 slideLeft</button>
+                <Modal animationType="slideLeft" open={slideLeft} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setSlideLeft(false)}>关闭 slideLeft</button>
+                </Modal>
+                <button onClick={() => setSlideRight(true)}>打开 slideRight</button>
+                <Modal animationType="slideRight" open={slideRight} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setSlideRight(false)}>关闭 slideRight</button>
+                </Modal>
+                <button onClick={() => setRotate(true)}>打开 rotate</button>
+                <Modal animationType="rotate" open={rotate} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setRotate(false)}>关闭 rotate</button>
+                </Modal>
+                <button onClick={() => setClipRectSp(true)}>打开 clipRectSp</button>
+                <Modal animationType="clipRectSp" open={clipRectSp} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setClipRectSp(false)}>关闭 clipRectSp</button>
+                </Modal>
+                <button onClick={() => setSlipRect(true)}>打开 clipRect</button>
+                <Modal animationType="clipRect" open={clipRect} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setSlipRect(false)}>关闭 clipRect</button>
+                </Modal>
+                <button onClick={() => setClipCircle(true)}>打开 clipCircle</button>
+                <Modal animationType="clipCircle" open={clipCircle} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setClipCircle(false)}>关闭 clipCircle</button>
+                </Modal>                
+                <button onClick={() => setBlur(true)}>打开blur</button>
+                <Modal animationType="blur" open={blur} style={{ width: 400, height: 300, backgroundColor: '#fff', boxShadow: '1px 1px 10px 1px rgba(0, 0, 0, .5)', borderRadius: 4 }} >
+                    <button onClick={() => setBlur(false)}>关闭 blur</button>
+                </Modal>
+            </>
+        );
+    }}
+</Playground>
+
+<br/>
+
+## 自定义位置与外层容器样式
+
+Modal框外有一层position为fixed的包裹容器用于使Modal相对窗口居中。
+
+可以通过 wrapperClassName， wrapperStyle 属性设置其样式，调整位置。
+
+
+<br/>
+
+
+## 蒙版
+
+通过设置 showMask 属性为false来关闭蒙版(即默认为true)。
+
+蒙版会屏蔽底下东西的点击，锁定body窗口的滚动，让用户聚焦在Modal上。
+
+通过 maskStyle, maskClassName 这两个属性自定义蒙版样式。
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| open | 开关Modal	 | boolean |
+| container | 放置容器 | HTMLElemengt |
+| animationType | 消息项过渡动画 | "zoom" \| "blur" \| "clipRectSp" \| "clipRect" \| "clipCircle" \| "fade" \| "flip" \| "door" \| "slideUp" \| "slideDown" \| "slideRight" \| "slideLeft" \| "rotate" \| "zoom" |
+| animationDuration | 消息项动画持续时间(ms) | number \| { enter, leave } |
+| clickToClose | 点击其他元素触发关闭 | false |
+| escToClose | 按esc键触发关闭  | true |
+| onClose | 触发关闭回调 | Function |
+| wrapperClassName | 包裹容器class | string |
+| wrapperStyle | 包裹容器style | CSSProperties |
+| showMask | 显示蒙版 | boolean | true |
+| maskClassName | 蒙版class	string  |
+| maskStyke | 蒙版style	CSSProperties |

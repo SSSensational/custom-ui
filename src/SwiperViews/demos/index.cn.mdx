@@ -1,0 +1,171 @@
+---
+name: J. 滑动视图-SwiperViews
+route: /swiper_views
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import SwiperViews from "../index";
+import BasicDemo from './basic';
+
+#### 简介
+
+既是可滑动视图，也可以作为轮播图(走马灯)。
+
+具备帧延缓拖拽跟随动画。
+
+
+## 用法示例
+
+注意必须指明SwiperViews的宽高。可以通过 className, style 设置。
+
+作为视图的子元素View将占满SwiperViews的宽高，不可手动设置View的宽高。
+
+
+```javascript
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import SwiperViews, { Methods } from '../index';
+const views = [{ bgColor: 'red '}, { bgColor: 'blue'}, { bgColor: 'green' }, { bgColor: 'yellow'}]
+const View = styled.div`
+`;
+const Demo = () => {
+    const swiper = useRef<Methods>(null);
+    const [direction, setDirection] = useState<'row' | 'column'>('row');
+    const [size, setSize] = useState(1);
+    const [scaleInDrag, setScaleInDrag] = useState<boolean | 'noShadow'>(true);
+    const [enableDrag, setEnableDrag] = useState(true);
+    const [autoplay, setAutoplay] = useState<number | boolean>(false);
+    return (
+        <>
+            <button onClick={() => setDirection(pre => pre === 'row' ? 'column' : 'row')}>改变 direction ({direction})</button>
+            <button onClick={() => setSize(pre => pre === 1 ? .75 : pre === .75 ? .5 : 1)}>改变 size ({size})</button>
+            <button onClick={() => setScaleInDrag(pre => pre === true ? 'noShadow' : pre === 'noShadow' ? false : true)}>改变 拖动时缩放视图 ({String(scaleInDrag)})</button>
+            <button onClick={() => setEnableDrag(pre => !pre)}>改变 允许拖动 ({String(enableDrag)})</button>
+            <button onClick={() => setAutoplay(pre => pre === false ? 3000 : false)}>改变 自动轮播 ({String(autoplay)})</button>
+            <button onClick={() => swiper.current?.goto(0)}> goto 页面0 </button>
+            <button onClick={() => swiper.current?.goto(2)}> goTo 页面2 </button>
+            <button onClick={() => swiper.current?.goto(-1)}> goTo 页面-1 </button>
+            <button onClick={() => swiper.current?.goto(12)}> goTo 页面12 </button>
+            <SwiperViews
+                ref={swiper}
+                style={{ width: 1000, height: 600, maxWidth: '100%', maxHeight: '80%' }}
+                direction={direction}
+                size={size}
+                scaleInDrag={scaleInDrag}
+                enableDrag={enableDrag}
+                autoplay={autoplay}
+            >
+                {views.map((view, index) => <View key={index} style={{ backgroundColor: view.bgColor }}>页面-{index}</View>)}
+            </SwiperViews>
+            <SwiperViews
+                style={{ width: 1000, height: 600, maxWidth: '100%', maxHeight: '80%', marginTop: 100 }}
+                size={.7}
+                loop
+            >
+                {views.map((view, index) => <View key={index} style={{ backgroundColor: view.bgColor }}>首尾相连循环-{index}</View>)}
+            </SwiperViews>
+            <SwiperViews
+                style={{ width: 1000, height: 600, maxWidth: '100%', maxHeight: '80%', marginTop: 100 }}
+                circular
+            >
+                {views.map((view, index) => <View key={index} style={{ backgroundColor: view.bgColor }}>首尾复位循环-{index}</View>)}
+            </SwiperViews>
+        </>
+    );
+}
+```
+
+<Playground>
+    <BasicDemo/>
+</Playground>
+
+
+<br/>
+
+
+## 大小与样式
+
+可以通过 className, style 属性设置SwiperViews容器的大小与样式。
+
+
+<br/>
+
+
+## 方向
+
+可以通过设置 direction 为 "row"(默认) | "column" 设置视图排列的方向。
+
+
+<br/>
+
+
+## 视图占主轴大小
+
+可以通过设置 size 为 0.5 - 1(默认) 之间的数字设置视图在主轴方向占容器的大小。
+
+
+<br/>
+
+
+## 拖拽时缩放视图
+
+可以通过设置 scaleInDrag 为 true(默认) / "noShadow" 开启拖拽时缩放视图， false 关闭。
+
+设置为 true 将为视图View永久附上 box-shadow 效果，"noShadow"则不会。当然也可以在视图View上用css覆盖。
+
+
+<br/>
+
+
+## 允许/禁用拖拽
+
+通过设置 enableDrag 属性为 true(默认) / false 允许/禁用拖拽。
+
+
+<br/>
+
+
+## 自动播放
+
+通过设置 autoplay 属性为 true(默认，等效3000) / 大于3000的数值 开启x毫秒后自动播放下一张视图， false(默认) 关闭。
+
+
+<br/>
+
+
+## 循环
+
+
+通过设置 loop 属性为 true 开启首尾相连的循环。
+
+通过设置 circular 属性为 true 开启首尾复位的循环。
+
+这两个属性互斥，不能同时存在，并且默认不开启。
+
+
+<br/>
+
+
+## 主动跳转
+
+
+可以通过ref属性调用SwiperViews的goto(index: number)方法，指定跳转到哪一张视图。
+
+若index超出范围， 则按首尾相连的顺序，跳到对应的那个视图。
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| direction | 视图排列方向 | "row" \| "column" | "row" |
+| size | 视图占主轴大小 | number(0.5 - 1) | 1 |
+| scaleInDrag | 拖拽时缩放视图 | boolean \| "noShadow" | true |
+| enableDrag | 启用拖拽	| boolean | true |
+| autoplay | 自动播放 | number (> 3000) | boolean | true |
+| loop | 首尾相连循环 | boolean	|
+| circular | 首尾复位循环 | boolean	|
+| 其他 | html属性 | 如 className, style, onClick 等	|

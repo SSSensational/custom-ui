@@ -1,0 +1,86 @@
+---
+name: B. 按钮-Button
+route: /button
+menu: 通用组件-组合
+---
+import { Playground } from "docz"; 
+import Button from "../index";
+
+#### 简介
+ButtonBase、Spin和Ripple的组合。
+
+功能更完善的按钮组件，大部分API与ButtonBase一致，额外增加了以下功能。
+
+## 加载中
+
+通过设置 loading 属性为 true 或者 Spin 组件的 type 类型，使按钮处于加载中状态。
+
+<Playground>
+    <Button variant="text" color="rgb(220, 0, 78)" loading>Button</Button>
+    <Button variant="outlined" color="mediumvioletred" loading="ball-ring">Button</Button>
+    <Button variant="contained" color="rgb(220, 0, 78)" loading="ball-spin">Button</Button>
+    <Button variant="contained" color="forestgreen" loading="ball-bounce">Button</Button>
+    <Button variant="contained" loading="ball-spin-stretch">Button</Button>
+    <Button variant="contained" color="deepskyblue" loading="ball-two">Button</Button>
+    <Button variant="contained" color="#6200ee" loading="ball-trail">Button</Button>
+    <Button variant="contained" color="#1976d2" loading="box-flip">Button</Button>
+    <Button variant="contained" color="brown" loading="board-flip">Button</Button>
+    <Button variant="contained" color="#e0e0e0" loading="box-spin-fill">Button</Button>
+    <Button variant="contained" color="rgb(220, 0, 78)" loading="bar">Button</Button>
+    <Button variant="contained" color="aquamarine" loading="dot-fade">Button</Button>
+    <Button variant="contained" color="#9c27b0" loading="dots-fade">Button</Button>
+    <Button variant="contained" color="aqua" loading="dot-swing">Button</Button>
+    <Button variant="contained" color="#b5f5ec" loading="dot-wave">Button</Button>
+</Playground>
+
+
+<br/>
+
+
+## 涟漪位置
+
+通过设置 rippleCenter 为true/false　控制涟漪位置从按钮中间/鼠标点击位置开始。
+
+<Playground>
+    <Button variant="outlined" color="mediumvioletred" rippleCenter>Button</Button>
+    <Button variant="outlined" color="forestgreen">Button</Button>
+</Playground>
+
+
+<br/>
+
+
+## 自定义颜色
+
+在ButtonBase自定义颜色API的基础上，增加了rippleColor和loadingColor两个字段，以自定义点击涟漪和加载指示符颜色。
+
+```javascript
+interface Color {
+    color: string,
+    bgColor?: string,
+    borderColor?: string,
+    hoverColor?: string,
+    hoverBgColor?: string,
+    hoverBorderColor?: string,
+    rippleColor?: string,
+    loadingColor?: string,
+}
+```
+
+<Playground>
+    <Button variant="outlined" color={{color: "rgb(220, 0, 78)", rippleColor: 'blue'}}>Button</Button>
+    <Button variant="outlined" color={{color: "rgb(220, 0, 78)", loadingColor: "blue"}} loading>Button</Button>
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| loading | 载入状态 | boolean \|　合法的Spin组件type值 |
+| rippleCenter | 涟漪位置 | boolean | false|
+| color | 按钮颜色 | "合法的css颜色字符串" \| { color, bgColor, borderColor, hoverColor, hoverBgColor, hoverBorderColor, rippleColor, loadingColor }  | "#000" |
+| 其他 | 其他ButtonBase属性 | | |

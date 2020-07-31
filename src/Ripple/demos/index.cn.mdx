@@ -1,0 +1,99 @@
+---
+name: C. 点击涟漪-Ripple
+route: /ripple
+menu: 通用组件-基础
+---
+import { Playground } from "docz";
+import Button from "../../ButtonBase";
+import Ripple from "../index";
+
+
+#### 简介
+为组件附加点击涟漪效果。
+默认会给该组件增加overflow: hidden的style。
+
+
+## 颜色
+
+通过设置 color 为合法的颜色字符串控制涟漪的颜色。
+
+默认为 "currentColor"
+
+<Playground>
+    <Button size="large" style={{color: 'red'}}>Button<Ripple /></Button>
+    <Button size="large">Button<Ripple color="blue"/></Button>
+</Playground>
+
+
+<br/>
+
+
+## 涟漪生成位置
+
+通过设置center为 true/false 控制涟漪 从目标元素中间生成/从鼠标点击处生成。
+
+默认为false
+
+```javascript
+interface size {
+    width: number | string,
+    height: number | string
+}
+```
+
+<Playground>
+    <Button size="large">Button<Ripple /></Button>
+    <Button size="large">Button<Ripple center/></Button>
+</Playground>
+
+
+<br/>
+
+
+## 去重
+
+通过设置 preventDupClick属性 为true/false 开启/关闭同一时间只能存在一个涟漪。
+
+默认为 false
+
+<Playground>
+    <Button size="large">Button<Ripple preventDupClick/></Button>
+</Playground>
+
+
+<br/>
+
+
+## 持续时间
+
+通过设置 duration属性(ms)　控制涟漪进出场时的持续时间
+
+<Playground>
+    <Button size="large">Button<Ripple duration={400}/></Button>
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+通过设置 disable 属性为 true 禁用Ripple
+
+<Playground>
+    <Button size="large">Button<Ripple disabled/></Button>
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| color | 涟漪颜色 | string | "currentColor" |
+| center | 涟漪位置 | boolean | false |
+| preventDupClick| 涟漪是否唯一 | boolean | false |
+| duration | 涟漪持续时间 | number | 300 |
+| disabled | 是否禁用涟漪 | boolean | false |

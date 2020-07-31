@@ -1,0 +1,389 @@
+---
+name: E. 悬浮弹框-Popper
+route: /Popper
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import Popper from "../index";
+
+#### 简介
+
+基于 Tippy 的悬浮弹框组件。
+
+
+## 内容
+
+通过设置 Content 属性设置弹框内容。Content可为任意合法的ReactNode。
+
+如果Content是字符、数字，默认容器样式将会是灰底白字。如果是JSX Element或者组件，则容器将只提供动画，不包含任何样式。
+
+<Playground>
+    <Popper Content="abcdef">
+        <button>字符</button>
+    </Popper>
+    <Popper Content={123}>
+        <button>数字</button>
+    </Popper>
+    <Popper Content={<span style={{ backgroundColor: 'red' }}>JSX.Element</span>}>
+        <button>JSX Element</button>
+    </Popper>
+    <Popper
+        Content={() => (
+            <div
+                style={{
+                    backgroundColor: 'lightgreen',
+                    width: 180,
+                    height: 60,
+                    color: 'red',
+                }}
+            >
+                React.Component
+            </div>
+        )}
+        >
+        <button>React 组件</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 容器样式
+
+通过 class, style 属性设置弹框容器的样式。
+
+<Playground>
+    <Popper Content="这是一个按钮" style={{ backgroundColor: "red", padding: 12 }}>
+        <button>Button</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 箭头
+
+通过设置 arrow 属性为 true 启用弹框箭头。
+箭头的颜色与弹框背景色相同，但是没有边框。可以通过覆盖Popper下.tippy-arrow的样式修改。
+
+<Playground>
+    <Popper Content="这是一个按钮" arrow>
+        <button>arrow</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow style={{ backgroundColor: "red" }}>
+        <button>arrow</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow style={{ backgroundColor: "green", border: "1px solid red" }}>
+        <button>arrow</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 弹出位置
+
+通过设置 placement 属性为 "top"(默认) | "top-start" | "top-end" | "right" | "right-start" | "right-end" | "bottom" | "bottom-start" | "bottom-end" | "left" | "left-start" | "left-end" | "auto" | "auto-start" | "auto-end" 设置弹出位置。
+
+<Playground>
+    <Popper Content="这是一个按钮" arrow placement="top">
+        <button>top</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="top-start">
+        <button>top-start</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="top-end">
+        <button>top-end</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="right">
+        <button>right</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="right-start">
+        <button>right-start</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="right-end">
+        <button>right-end</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="bottom">
+        <button>bottom</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="bottom-start">
+        <button>bottom-start</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="bottom-end">
+        <button>bottom-end</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="left">
+        <button>left</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="left-start">
+        <button>left-start</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="left-end">
+        <button>left-end</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="auto">
+        <button>auto</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="auto-start">
+        <button>auto-start</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow placement="auto-end">
+        <button>auto-end</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 进出场动画
+
+通过设置 animationType 为 "zoom"(默认) | "fade" | "flip" | "door" | "slideUp" | "slideDown" | "slideRight" | "slideLeft" | "rotate" | "blur" | "clipRectSp" | "clipRect" | "clipCircle" 设置进出场动画。
+
+<Playground>
+    <Popper Content="这是一个按钮" animationType="zoom">
+        <button>zoom</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="fade">
+        <button>fade</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="flip">
+        <button>flip</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="door">
+        <button>door</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow animationType="slideUp">
+        <button>slideUp</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow animationType="slideDown">
+        <button>slideDown</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow animationType="slideRight">
+        <button>slideRight</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow animationType="slideLeft">
+        <button>slideLeft</button>
+    </Popper>
+    <Popper Content="这是一个按钮" arrow animationType="rotate">
+        <button>rotate</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="blur">
+        <button>blur</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="clipRectSp">
+        <button>clipRectSp</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="clipRect">
+        <button>clipRect</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationType="clipCircle">
+        <button>clipCircle</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 动画持续时间
+
+通过设置 animationDuration 属性(ms)，修改弹框进出场动画持续时间。
+
+```javascript
+type animationDuration = number | { enter: number, leave: number }
+```
+
+<Playground>
+    <Popper Content="这是一个按钮" animationDuration={500}>
+        <button>Button</button>
+    </Popper>
+    <Popper Content="这是一个按钮" animationDuration={{ enter: 200, leave: 1000 }}>
+        <button>Button</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 进出场延时
+
+通过设置 delay 属性(ms)，修改弹框进出场延时。
+
+```javascript
+type delay = number | { enter: number, leave: number }
+```
+
+<Playground>
+    <Popper Content="这是一个按钮" delay={500}>
+        <button>Button</button>
+    </Popper>
+    <Popper Content="这是一个按钮" delay={{ enter: 200, leave: 2000 }}>
+        <button>Button</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 触发方式
+
+通过设置 trigger 属性为 "mouseenter focus" | "click" | "focusin" | "mouseenter click" 设置弹框触发方式。
+
+默认为 "mouseenter focus"。
+
+也可以不设置 trigger 属性， 通过设置 visible 属性为 true / false 手动控制弹框显示 / 关闭。
+
+<Playground>
+    <Popper Content="这是一个按钮" trigger="mouseenter focus">
+        <button>mouseenter focus</button>
+    </Popper>
+    <Popper Content="这是一个按钮" trigger="click">
+        <button>click</button>
+    </Popper>
+    <Popper Content="这是一个按钮" trigger="focusin">
+        <button>focusin</button>
+    </Popper>
+    <Popper Content="这是一个按钮" trigger="mouseenter click">
+        <button>mouseenter click</button>
+    </Popper>
+    <Popper Content="这是一个按钮" visible={true}>
+        <button>manual</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 点击隐藏
+
+通过设置 hideOnClick 属性为 boolean | "toggle" 设置弹框在 trigger = "click" 下时的隐藏方式。
+
+true 时点击任意地方隐藏， false 时点击不触发隐藏， "toggle" 时点击触发元素自身隐藏。
+
+默认为 true。
+
+<Playground>
+    <Popper Content="这是一个按钮" trigger="click" hideOnClick={true}>
+        <button>true</button>
+    </Popper>
+    <Popper Content="这是一个按钮" trigger="click" hideOnClick={false}>
+        <button>false</button>
+    </Popper>
+    <Popper Content="这是一个按钮" trigger="click" hideOnClick="toggle">
+        <button>toggle</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 跟随鼠标
+
+通过设置 followCursor 属性为 boolean | "horizontal" | "vertical" | "initial" 设置弹框跟随鼠标移动的方式。
+
+默认为 false。
+
+<Playground>
+    <Popper Content="这是一个按钮" followCursor>
+        <button>true</button>
+    </Popper>
+    <Popper Content="这是一个按钮" followCursor={false}>
+        <button>false</button>
+    </Popper>
+    <Popper Content="这是一个按钮" followCursor="initial">
+        <button>initial</button>
+    </Popper>
+    <Popper Content="这是一个按钮" followCursor="horizontal">
+        <button>horizontal</button>
+    </Popper>
+    <Popper Content="这是一个按钮" followCursor="vertical">
+        <button>vertical</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 可交互的
+
+通过设置 interactive 属性为 true 使得鼠标移动可移动至弹框上。
+
+通过设置 interactiveBorder 属性(px) 设置可交互弹框的边界。
+
+通过设置 interactiveDebounce 属性(ms) 设置超出可交互弹框的边界多少时长时隐藏弹框。
+
+<Playground>
+    <Popper Content="这是一个按钮" interactive>
+        <button>interactive</button>
+    </Popper>
+    <Popper Content="这是一个按钮" interactive interactiveBorder={50}>
+        <button>interactiveBorder=50</button>
+    </Popper>
+    <Popper Content="这是一个按钮" interactive interactiveDebounce={666}>
+        <button>interactiveDebounce=666</button>
+    </Popper>
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+通过设置 disabled 属性为 true 禁用弹框。
+
+
+<br/>
+
+
+## 附着对象
+
+```javascript
+type delatriggerTargety = someElement | [someElement1, someElement2, ...];
+```
+
+通过设置 triggerTarget 属性为合法的DOM Element改变弹框附着对象。
+
+
+<br/>
+
+
+## 层级
+
+通过设置 zIndex 属性为 改变弹框层级。
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| Content | 弹框内容 | 任意合法的ReactNode  |  |
+| class, style | 弹框容器样式 |  |  |
+| arrow | 启用箭头 | boolean  | "#000" |
+| placement | 弹出位置 | "top" \| "top-start" \| "top-end" \| "right" \| "right-start" \| "right-end" \| "bottom" \| "bottom-start" \| "bottom-end" \| "left" \| "left-start" \| "left-end" \| "auto" \| "auto-start" \| "auto-end" | "top" |
+| animationType | 过渡动画 | "zoom" \| "blur" \| "clipRectSp" \| "clipRect" \| "clipCircle" \| "fade" \| "flip" \| "door" \| "slideUp" \| "slideDown" \| "slideRight" \| "slideLeft" \| "rotate" | "zoom" |
+| animationDuration | 动画持续时间(ms) | number \| { enter, leave } |
+| delay | 进出场延时(ms) | number \| { enter, leave } |
+| trigger | 触发方式 | "mouseenter focus" \| "click" \| "focusin" \| "mouseenter click" \| "manual"  | "mouseenter focus" |
+| visible | 弹框开启/关闭状态 | boolean, 配合 trigger="manual" 使用 |
+| hideOnClick | 点击时关闭 | boolean \| "toggle", 配合 trigger="click" 使用 |
+| followCursor | 跟随鼠标 | boolean \| "horizontal" \| "vertical" \| "initial" | false |
+| interactive | 可交互 | boolean |
+| interactiveBorder | 交互边界(px) | number |
+| interactiveDebounce | 过交互边界关闭延时(ms) | number |
+| triggerTarget | 附着对象 | ReactElement \| ReactElement[] | children Element
+| disabled | 禁用状态 | boolean |
+| zIndex | 层级 | number |

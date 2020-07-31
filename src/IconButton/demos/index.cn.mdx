@@ -1,0 +1,137 @@
+---
+name: C. 图标按钮-IconButton
+route: /icon_button
+menu: 通用组件-组合
+---
+import { Playground } from "docz"; 
+import IconIconButton from "../index";
+
+#### 简介
+
+IconButton与Icon的组合，将Icon化为可点击按钮的组件。
+
+大部分API与IconButton一致，去掉了 fullWidth, borderRadius 属性，并修改了以下属性。
+
+
+## src
+
+通过 src 指定图片源
+
+<Playground>
+    <IconIconButton src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg" />
+</Playground>
+
+
+<br/>
+
+
+## 类型
+
+通过设置 variant 为 incent, contained 改变按钮的类型。若不设置 variant，则类型默认为 incent。
+
+incent意味着这是一个透明底色的图标按钮，contained意味着这是一个有背景底色的按钮。
+
+incent 类型的图标按钮 rippleCenter 默认为 true。
+
+<Playground>
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        variant="incent"
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        variant="contained"
+    />
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 属性为 合法的css长度单位 设置按钮的大小， 通过 radio 属性(0 - 1)设置按钮内图标占按钮大小比例(默认为0.55)。
+
+也可以通过设置 size 为 包含 iconHeight, iconWidth, IconIconButton 属性(其值也可以为任意合法的css长度单位)的对象来设置按钮的大小与图标的大小。
+
+相比于radio，这种方法可以分别设置图标的宽高。当使用这种方法设置size为对象时，不能再给IconIconButton设置 radio 属性(互斥)。
+
+```javascript
+interface CustomSize {
+    iconWidth: number | string,
+    iconHeight: number | string,
+    buttonSize: number | string
+}
+```
+
+<Playground>
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        size={36}
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        size={60}
+        ratio={0.4}
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        size={{ iconWidth: 33, iconHeight: 33, buttonSize: 56 }}
+    />
+</Playground>
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 为 合法的css字符串 设置图标按钮的颜色。
+
+incent类型的按钮改变的是图标的颜色，contained类型的按钮改变的是背景的颜色(图标色为白色)。
+
+也可以通过设置 color 为包含 buttonColor, iconColor 属性的对象来设置按钮的具体颜色。
+
+
+```javascript
+interface CustomColor {
+    buttonColor: string;
+    iconColor: string;
+}
+```
+
+<Playground>
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        color="red"
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        color={{ buttonColor: 'yellow', iconColor: 'pink' }}
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        variant="contained"
+        color="red"
+    />
+    <IconIconButton
+        src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/delete.svg"
+        variant="contained"
+        color={{ buttonColor: 'yellow', iconColor: 'pink' }}
+    />
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| *src | 图标源 | string |
+| variant | 图标按钮类型 | 	"incent" \| "contained" | "incent" |
+| size | 按钮大小 | "合法的css长度字符串" \| { iconWidth, iconHeight, buttonSize }| "48px" |
+| radio | 图标占按钮大小的比例 | number(0 - 1) | 0.55 |
+| color | 图标颜色 | "合法的css颜色字符串" \| { buttonColor, iconColor } | "#666" |
+| 其他 | 其他IconButton的属性｜

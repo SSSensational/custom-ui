@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es5",
+    "jsx": "react",
+    "declaration": true,
+    "module": "esnext",
+    "strict": true,
+    "moduleResolution": "node",
+		"skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

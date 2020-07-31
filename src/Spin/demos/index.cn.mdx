@@ -1,0 +1,105 @@
+---
+name: D. 加载指示符-Spin
+route: /spin
+menu: 通用组件-基础
+---
+import { Playground } from "docz";
+import Spin from "../index";
+
+
+#### 简介
+加载状态指示符
+
+
+## 类型
+
+type可为 "bar" | "ball-dash" | "ball-ring" | "ball-spin" | "ball-spin-stretch" | "ball-two" | "ball-three" | "ball-trail" | "box-flip" | "box-spin-fill" | "dot-fade" | "dots-fade" | "dot-swing" | "dot-wave"
+
+默认为 "bar"
+
+<Playground>
+    <Spin />
+    <Spin type="ball-dash"/>
+    <Spin type="ball-ring"/>
+    <Spin type="ball-bounce"/>
+    <Spin type="ball-spin"/>
+    <Spin type="ball-spin-stretch"/>
+    <Spin type="ball-two"/>
+    <Spin type="ball-trail"/>
+    <Spin type="board-flip"/>
+    <Spin type="box-flip"/>
+    <Spin type="box-spin-fill"/>
+    <Spin type="dot-fade"/>
+    <Spin type="dots-fade"/>
+    <Spin type="dot-swing"/>
+    <Spin type="dot-wave"/>
+</Playground>
+
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 为合法的颜色字符串控制Spin的颜色。
+
+默认为 "currentColor"
+
+<Playground> 
+    <Spin color="#ffe7ba"/>
+    <Spin type="ball-dash" color="yellowgreen"/>
+    <Spin type="ball-ring" color="lightblue"/>
+    <Spin type="ball-bounce" color="pink"/>
+    <Spin type="ball-spin" color="#5b8c00"/>
+    <Spin type="ball-spin-stretch" color="#91d5ff"/>
+    <Spin type="ball-two" color="#096dd9"/>
+    <Spin type="ball-trail" color="#73d13d"/>
+    <Spin type="box-flip" color="#874d00"/>
+    <Spin type="board-flip" color="green"/>
+    <Spin type="box-spin-fill" color="#85a5ff"/>
+    <Spin type="dot-fade" color="#b37feb"/>
+    <Spin type="dots-fade" color="#ffadd2"/>
+    <Spin type="dot-swing" color="#d9d9d9"/>
+    <Spin type="dot-wave" color="#5c0011"/>
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 为合法的长度单位指定Spin的尺寸
+
+如果 size 非法，将会被设置为默认大小 32px。
+
+<Playground>
+    <Spin size={16}/>
+    <Spin type="ball-dash" size={20} />
+    <Spin type="ball-ring" size={24}/>
+    <Spin type="ball-bounce" size={26}/>
+    <Spin type="ball-spin" size='28px'/>
+    <Spin type="ball-spin-stretch" size='3vw'/>
+    <Spin type="ball-two" size={32}/>
+    <Spin type="ball-trail" size={36}/>
+    <Spin type="box-flip" size={40}/>
+    <Spin type="board-flip" size={70}/>
+    <Spin type="box-spin-fill" size={44}/>
+    <Spin type="dot-fade" size={48}/>
+    <Spin type="dots-fade" size={52}/>
+    <Spin type="dot-swing" size={56}/>
+    <Spin type="dot-wave" size={60}/>
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| type| 类型 | "bar" | "ball-dash" | "ball-ring" | "ball-spin" | "ball-spin-stretch" | "ball-two" | "ball-three" | "ball-trail" | "box-flip" | "box-spin-fill" | "dot-fade" | "dots-fade" | "dot-swing" | "dot-wave" | "bar" |
+| color | 颜色 | string | "currentColor" |
+| size | 尺寸 | "合法的css长度字符串" \| number | "32px" |

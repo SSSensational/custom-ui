@@ -1,0 +1,81 @@
+---
+name: B. 图标-Icon
+route: /icon
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import Icon from "../index";
+
+#### 简介
+像使用img一样生成自定义颜色图标的组件。
+
+## src
+
+通过 src 指定图片源
+<Playground>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.png"/>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.svg"/>
+</Playground>
+
+
+<br/>
+
+
+## 简单尺寸
+
+通过设置 size 为合法的长度单位指定图片的宽高
+
+如果 size 非法，将会被设置为默认大小 32px。
+
+<Playground>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.svg" size={44}/>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.svg" size="24px"/>
+</Playground>
+
+
+<br/>
+
+
+## 自定义尺寸
+
+size也可以设置为包含width, height属性的对象来指定图片具体的宽高(仅对于png这样的非向量图源有效)。
+
+属性的值也得是合法的单位，否则将置为默认大小。
+
+```javascript
+interface size {
+    width: number | string,
+    height: number | string
+}
+```
+
+<Playground>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.png" size={{width: 24, height: 36}}/>
+</Playground>
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 为任意合法的css值指定图片非透明区域的颜色。
+
+color 值不合法以及默认将置为 #666。
+
+<Playground>
+    <Icon src="https://custom-ui.oss-accelerate.aliyuncs.com/Assets/momo.svg" color="red"/>
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| *src | 图标源 | string |
+| size | 图标尺寸 | "合法的css长度字符串" \| number \| { width, height } | "32px" |
+| color | 图标颜色 | "合法的css颜色字符串" | "#666" |
+| 其他 | html属性 | 如 class, style, alt 等 | |

@@ -1,0 +1,193 @@
+---
+name: B. 多选框-Checkbox
+route: /checkbox
+menu: 表单组件
+---
+import { Playground } from "docz"; 
+import Checkbox from "../index";
+
+#### 简介
+
+多选框
+
+
+## 可交互背景
+
+设置 interactive 为 "background"(默认) / true 启用选择框可交互背景，false 关闭。
+
+当 interactive 为 "background" 时， 可交互背景的并不占据真实空间，为true时占据真实空间。
+
+<Playground>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Checkbox interactive="background">选择框1</Checkbox>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Checkbox interactive={true}>选择框2</Checkbox>
+    <div style={{ lineHeight: '16px' }}>111111111111111111111111111111111</div>
+    <Checkbox interactive={false}>选择框3</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## 颜色
+
+通过设置 color 属性为 "合法的css颜色字符串" 改变Checkbox颜色(默认为"#3E4DA7")。
+
+<Playground>
+    <Checkbox color="red">选择框1</Checkbox>
+    <Checkbox color="green">选择框2</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## 大小
+
+通过设置 size 属性为 "合法的css长度单位" 改变Checkbox大小(默认为"20px")。
+
+<Playground>
+    <Checkbox size={14}>选择框1</Checkbox>
+    <Checkbox size="32px">选择框2</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## children标签放置位置
+
+通过设置 labelPlacement 属性为 "bottom" | "top" | "left" | "right"(默认) 改变children标签放置位置。
+
+<Playground>
+    <Checkbox labelPlacement="bottom">在下面</Checkbox>
+    <Checkbox labelPlacement="top">在上面</Checkbox>
+    <Checkbox labelPlacement="right">在右边</Checkbox>
+    <Checkbox labelPlacement="left">在左边</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## children标签离多选框距离
+
+通过设置 labelDistance 属性为 "合法的css长度单位" 设置children标签离多选框的距离。(默认.5em)
+
+<Playground>
+    <Checkbox labelDistance={24}>24px</Checkbox>
+    <Checkbox labelDistance="3em">3em</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## 禁用状态
+
+通过设置 disabled 属性为 true 禁用选择框
+
+<Playground>
+    <Checkbox disabled>禁用状态</Checkbox>
+    <Checkbox disabled checked>禁用状态</Checkbox>
+</Playground>
+
+
+<br/>
+
+
+## 其他原生HTML input type="checkbox" 的属性
+
+受控、非受控，id等。
+
+
+<br/>
+
+
+## 选择框群组
+
+可以通过Checkbox.Group包裹Checkbox，来集体控制Checkbox。Group是个纯粹控制组件，不生成元素。
+
+不要求是直接子代关系，可以任意布局。但是要求Checkbox填写 name 属性，未填写的不算在Group里。
+
+可以通过给Checkbox.Group 设置 disabled 属性为 true，来禁用这个群组里的所有选择框。
+
+可以通过给Checkbox.Group 设置 max 属性来限制这个群组最多勾选几个选择框，默认不限制。
+
+可以给非受控的Checkbox.Group设置 defaultValue 属性来控制其默认选中项。
+
+<Playground>
+    {() => {
+        const [group1, setGroup1] = React.useState([]);
+        const [group2, setGroup2] = React.useState(['g']);
+        return (
+            <>
+                <Checkbox.Group onChange={value => setGroup1(value)}>
+                    <Checkbox name="a">选择框a</Checkbox>
+                    <Checkbox name="b">选择框b</Checkbox>
+                </Checkbox.Group>
+                <span style={{ marginLeft: 24 }}>群组值： [{group1.join(', ')}]</span>
+                <div />
+                <Checkbox.Group disabled>
+                    <Checkbox name="c">选择框c</Checkbox>
+                    <Checkbox name="d">选择框d</Checkbox>
+                    <Checkbox>选择框未填name，所以不被禁用</Checkbox>
+                </Checkbox.Group>
+                <div />
+                <Checkbox.Group defaultValue={group2} max={2} onChange={value => setGroup2(value)}>
+                    <Checkbox name="f">选择框f</Checkbox>
+                    <Checkbox name="g">选择框g</Checkbox>
+                    <Checkbox name="h">选择框h</Checkbox>
+                    <Checkbox name="i">选择框i</Checkbox>
+                    <span style={{ marginLeft: 24 }}>群组值： [{group2.join(', ')}]</span>
+                </Checkbox.Group>
+            </>
+        )
+    }}
+</Playground>
+
+
+<br/>
+
+
+## 受控模式下的选择框群组
+
+通过给 Checkbox.Group 设置 value 和 onChange 属性使其受控。
+
+value 属性要求为仅包含其内Checkbox name的群组。
+
+<Playground>
+    {() => {
+        const [value, setValue] = React.useState(['j']);
+        return (
+            <>
+                <Checkbox checked={value.length === 4} onChange={() => setValue(value.length === 4 ? [] : ['j', 'k', 'l', "m"])}>全选</Checkbox>
+                <div/>
+                <Checkbox.Group value={value} onChange={value => setValue(value)}>
+                    <Checkbox name="j">选择框j</Checkbox>
+                    <Checkbox name="k">选择框k</Checkbox>
+                    <Checkbox name="l">选择框l</Checkbox>
+                    <Checkbox name="m">选择框m</Checkbox>
+                    <span style={{ marginLeft: 24 }}>群组值： [{value.join(', ')}]</span>
+                </Checkbox.Group>
+            </>
+        );
+    }}
+</Playground>
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 |
+| ---- | -------- | -------------------------------------------- | ------ |
+| interactive | 可交互背景 | "background" \| boolean  | "background" |
+| color | 颜色 | "合法的css颜色字符串" | "#3E4DA7" |
+| size | 大小 | " "合法的css长度单位" | "20px" |
+| labelPlacement | 标签位置 | "bottom" \| "top" \| "left" \| "right" | "right" |
+| labelDistance | 标签距离 | "合法的css长度单位" | ".5em" |
+| disabled | 禁用状态 | boolean | false |
+| 其他 | html属性 | 如 id, required 等 |

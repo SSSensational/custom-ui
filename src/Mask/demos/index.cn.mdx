@@ -1,0 +1,66 @@
+---
+name: G. 蒙版-Mask
+route: /mask
+menu: 通用组件-基础
+---
+import { Playground } from "docz"; 
+import Mask from "../index";
+import Demo from './demo';
+
+#### 简介
+
+背景蒙版，用于Modal等弹出层。蒙版出现时，body不可滚动，下方内容可见不可点击。
+
+
+## 开关
+
+通过设置 open 属性开关蒙版。
+
+```javascript
+import React, { useState } from 'react';
+import Mask from '../index';
+
+const Demo = () => {
+    const [open, set] = useState(false);
+    const handleClick = () => {
+        set(true);
+        setTimeout(() => set(false), 3000);
+    }
+    return (
+        <>
+            <button onClick={handleClick}>点击打开蒙版，三秒后关闭</button>
+            <Mask open={open}/>
+        </>
+    );
+}
+```
+
+<Playground>
+    <Demo />
+</Playground>
+
+
+<br/>
+
+
+## 层级
+
+通过设置 zIndex 属性设置蒙版层级。
+
+
+<br/>
+
+
+## 其他任意原生html属性、事件
+
+
+<br/>
+
+
+## API
+
+| 属性 | 说明     | 类型                                         | 默认值 | 
+| ---- | -------- | -------------------------------------------- | ------ |
+| open | 开关蒙版 | boolean |
+| zIndex | 蒙版层级 | number | 100 |
+| 其他 | html属性 | 如 class, style, onClick 等 | |
