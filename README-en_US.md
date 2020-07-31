@@ -47,7 +47,7 @@ yarn add custom-ui
 custom-ui supports tree shaking of ES modules, so using import { Button } from 'custom-ui'; would drop js code you didn't use.
 
 ```jsx
-import { Button, Input } from 'custom-ui';
+import { Button, Input } from 'react-customize-ui';
 
 const App = () => (
   <>
@@ -60,7 +60,8 @@ const App = () => (
 When you need to use other export function of a component, you can also import it separately as follows.
 
 ```javascript
-import Form, { useForm, FormProvider } from 'custom-ui/lib/Form';
+import Checkbox, { CheckboxGroup } from 'react-customize-ui/es/Checkbox';
+import Form, { useForm, FormProvider } from 'react-customize-ui/lib/Form';
 ```
 
 ## Development

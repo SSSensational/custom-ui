@@ -11,7 +11,7 @@
 </div>
 
 <div align="center">
-    English(./README-en_US.md) | 简体中文
+    [English](./README-en_US.md) | 简体中文
 </div>
 
 
@@ -47,7 +47,7 @@ yarn add custom-ui
 custom-ui 默认支持基于 ES modules 的 tree shaking，直接如下引入就会有按需加载的效果。
 
 ```jsx
-import { Button, Input } from 'custom-ui';
+import { Button, Input } from 'react-customize-ui';
 
 const App = () => (
   <>
@@ -60,7 +60,8 @@ const App = () => (
 当你需要使用某组件的非默认导出功能，也可以如下单独引入。
 
 ```javascript
-import Form, { useForm, FormProvider } from 'custom-ui/lib/Form';
+import Checkbox, { CheckboxGroup } from 'react-customize-ui/es/Checkbox';
+import Form, { useForm, FormProvider } from 'react-customize-ui/lib/Form';
 ```
 
 ## 调试
